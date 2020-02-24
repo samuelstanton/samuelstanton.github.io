@@ -17,7 +17,7 @@ import time
 
 # Data about this site
 BLOG_AUTHOR = "Sam Stanton"  # (translatable)
-BLOG_TITLE = "Blog Demo"  # (translatable)
+BLOG_TITLE = "Soup of the Day"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
 SITE_URL = "https://samuelstanton.github.io/"
@@ -25,7 +25,7 @@ SITE_URL = "https://samuelstanton.github.io/"
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://samuelstanton.github.io/"
 BLOG_EMAIL = "ss13641@nyu.edu"
-BLOG_DESCRIPTION = "This is a demo site for Nikola."  # (translatable)
+BLOG_DESCRIPTION = "Old ideas stirred and reheated."  # (translatable)
 
 # Nikola is multilingual!
 #
