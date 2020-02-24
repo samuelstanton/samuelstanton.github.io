@@ -25,7 +25,7 @@ SITE_URL = "https://samuelstanton.github.io/"
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://samuelstanton.github.io/"
 BLOG_EMAIL = "ss13641@nyu.edu"
-BLOG_DESCRIPTION = "Old ideas stirred and reheated."  # (translatable)
+BLOG_DESCRIPTION = "Surplus thoughts, mixed and heated."  # (translatable)
 
 # Nikola is multilingual!
 #
