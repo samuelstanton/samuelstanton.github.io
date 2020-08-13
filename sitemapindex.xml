@@ -6,15 +6,11 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
-  <loc>https://samuelstanton.github.io/galleries/rss.xml</loc>
-  <lastmod>2020-03-05T00:26:00Z</lastmod>
- </sitemap>
- <sitemap>
   <loc>https://samuelstanton.github.io/rss.xml</loc>
-  <lastmod>2020-03-04T23:59:00Z</lastmod>
+  <lastmod>2020-08-13T04:16:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/sitemap.xml</loc>
-  <lastmod>2020-03-05T00:26:00Z</lastmod>
+  <lastmod>2020-08-13T04:16:00Z</lastmod>
  </sitemap>
 </sitemapindex>
