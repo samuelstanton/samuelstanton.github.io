@@ -223,6 +223,7 @@ POSTS = (
     ("posts/*.md", "blog", "post.tmpl"),
     ("posts/*.txt", "blog", "post.tmpl"),
     ("posts/*.html", "blog", "post.tmpl"),
+    ("posts/*.ipynb", "blog", "post.tmpl"),
 )
 PAGES = (
     ("pages/*.rst", "", "page.tmpl"),
@@ -1101,7 +1102,7 @@ MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.c
 # (translatable)
 SOCIAL_BUTTONS_CODE = """
 <center>
-<a href="https://twitter.com/sam_d_stanton?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @sam_d_stanton</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<a href="https://twitter.com/samscub?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @samscub</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </center>
 """
 # <!-- Social buttons -->
