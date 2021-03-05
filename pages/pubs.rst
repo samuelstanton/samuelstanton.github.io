@@ -7,6 +7,11 @@
 .. description:
 .. type: text
 
+| **Kernel Interpolation for Scalable Online Gaussian Processes**
+| Samuel Stanton, Wesley Maddox, Ian Delbridge, Andrew Gordon Wilson
+| *The 24th International Conference on Artificial Intelligence and Statistics* (AISTATS 2021)
+| https://arxiv.org/abs/2103.01454
+|
 | **On the Model-Based Stochastic Value Gradient for Continuous Reinforcement Learning**
 | Brandon Amos, Samuel Stanton, Denis Yarats, Andrew Gordon Wilson
 | *ArXiv Preprint*
