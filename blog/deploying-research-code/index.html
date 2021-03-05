@@ -337,8 +337,8 @@ Use <code>docker system prune -f</code> to clean that up.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="4.-Configuring-the-Hydra-Ray-Plugin">4. Configuring the Hydra Ray Plugin<a class="anchor-link" href="#4.-Configuring-the-Hydra-Ray-Plugin">¶</a>
-</h4>
+<h3 id="4.-Configuring-the-Hydra-Ray-Plugin">4. Configuring the Hydra Ray Plugin<a class="anchor-link" href="#4.-Configuring-the-Hydra-Ray-Plugin">¶</a>
+</h3>
 <p>Now we need to update our program config to accomodate the Hydra Ray launcher plugin. In order to maintain our ability to run our program locally, we'll make use of Hydra's composability and add another file, <code>config/hydra/launcher/ray_aws.yaml</code></p>
 
 <pre><code># /path/to/project/config/hydra/launcher/ray_aws.yaml
@@ -406,6 +406,7 @@ stop_cluster: true</code></pre>
 </h3>
 <ul>
 <li><a href="https://hydra.cc/docs/intro">Hydra docs</a></li>
+<li><a href="https://github.com/samuelstanton/hydra-ray-demo">Example on GitHub</a></li>
 </ul>
 </div>
 </div>
