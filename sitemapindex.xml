@@ -6,11 +6,51 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
+  <loc>https://samuelstanton.github.io/categories/ai.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/aws-ec2.xml</loc>
+  <lastmod>2021-03-05T18:10:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/aws.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/docker.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/ec2.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/hydra.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/ml.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/ray.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/research-code.xml</loc>
+  <lastmod>2021-03-05T18:10:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://samuelstanton.github.io/categories/research.xml</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </sitemap>
+ <sitemap>
   <loc>https://samuelstanton.github.io/rss.xml</loc>
-  <lastmod>2020-08-13T04:26:00Z</lastmod>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/sitemap.xml</loc>
-  <lastmod>2020-08-31T18:08:00Z</lastmod>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
  </sitemap>
 </sitemapindex>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploying Research Code with Hydra, Ray, and Docker | Soup of the Day</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../../rss.xml">
+<link rel="canonical" href="https://samuelstanton.github.io/blog/deploying-research-code/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Sam Stanton">
+<link rel="prev" href="../focus-groups-and-academic-reviews/" title="Focus Groups and Academic Reviews" type="text/html">
+<meta property="og:site_name" content="Soup of the Day">
+<meta property="og:title" content="Deploying Research Code with Hydra, Ray, and Docker">
+<meta property="og:url" content="https://samuelstanton.github.io/blog/deploying-research-code/">
+<meta property="og:description" content="Deploying research code to a compute cluster is a pain. EC2 can be particularly thorny. My workflow in past projects usually looked something like this:
+
+Write code on a local machine
+Manually spin up">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2021-03-05T03:54:00Z">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="ec2">
+<meta property="article:tag" content="hydra">
+<meta property="article:tag" content="ML">
+<meta property="article:tag" content="ray">
+<meta property="article:tag" content="research">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Header and menu bar -->
+<div class="container">
+      <header class="blog-header py-3"><div class="row nbb-header align-items-center">
+          <div class="col-md-3 col-xs-2 col-sm-2" style="width: auto;">
+            <button class="navbar-toggler navbar-light bg-light nbb-navbar-toggler" type="button" data-toggle="collapse" data-target=".bs-nav-collapsible" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse bs-nav-collapsible bootblog4-search-form-holder">
+                
+            </div>
+        </div>
+          <div class="col-md-6 col-xs-10 col-sm-10 bootblog4-brand" style="width: auto;">
+            <a class="navbar-brand blog-header-logo text-dark" href="https://samuelstanton.github.io/">
+
+            <span id="blog-title">Soup of the Day</span>
+        </a>
+          </div>
+            <div class="col-md-3 justify-content-end align-items-center bs-nav-collapsible collapse flex-collapse bootblog4-right-nav">
+            <nav class="navbar navbar-light bg-white"><ul class="navbar-nav bootblog4-right-nav"></ul></nav>
+</div>
+    </div>
+</header><nav class="navbar navbar-expand-md navbar-light bg-white static-top"><div class="collapse navbar-collapse bs-nav-collapsible" id="bs-navbar">
+            <ul class="navbar-nav nav-fill d-flex w-100">
+<li class="nav-item">
+<a href="../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../" class="nav-link">Blog</a>
+                </li>
+<li class="nav-item">
+<a href="../../pubs" class="nav-link">Publications</a>
+                </li>
+<li class="nav-item">
+<a href="../../bio/" class="nav-link">Bio</a>
+                </li>
+<li class="nav-item">
+<a href="../../sam_stanton_cv.pdf" class="nav-link">CV</a>
+
+                
+            </li>
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</nav>
+</div>
+
+<div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Deploying Research Code with Hydra, Ray, and Docker</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    Sam Stanton
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2021-03-05T03:54:00Z" itemprop="datePublished" title="2021-03-05 03:54">2021-03-05 03:54</time></a>
+            </p>
+            
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Deploying research code to a compute cluster is a pain. EC2 can be particularly thorny. My workflow in past projects usually looked something like this:</p>
+<ul>
+<li>Write code on a local machine</li>
+<li>Manually spin up an EC2 instance</li>
+<li>SSH into an instance, install the dependencies, and create an AMI</li>
+<li>Spin up more instances with the new AMI, launch jobs individually</li>
+<li>Manually collect output</li>
+</ul>
+<p>I try not to think about how many hours I've spent this way. While it's pretty obvious that most of the workflow can in principle be automated, the path to automation is long and treacherous. Most open-source projects only solve a part of the problem, and putting the pieces together often requires a fairly high level of sophistication on the part of the user.</p>
+<p>This is the part where I ought to pitch my new amazing framework that will solve all your problems with a clean, simple UI. The truth is I don't think any framework exists that gives researchers the combination of flexibility and simplicity they want. Maybe <a href="https://www.grid.ai/">Grid AI</a> will get there someday. My hypothesis for why the problem of deploying research code is still so difficult is very simple. Researchers don't have the time or desire to learn frameworks. We want to write simple, transparent code that's easy to change, and then we want that same code to run on a cluster. In this post I'll take you through my process for scaling to EC2 clusters. It strikes a healthy balance between ease-of-use and flexibility. We'll be using the following packages:</p>
+<ul>
+<li>
+<a href="https://hydra.cc/docs/intro/">Hydra</a> for application configuration</li>
+<li>
+<a href="https://docs.ray.io/en/master/">Ray</a> for cluster management</li>
+<li>
+<a href="https://docs.docker.com/">Docker</a> to manage dependencies</li>
+</ul>
+<p>Each of the following steps will take some time, and may need to be tweaked to suit your particular situation. Think of this more as an example than a comprehensive guide. To try to keep this post to a reasonable length, I won't be including details that are well-documented, like package installation. If things don't work for you at first, keep at it! A little time invested here will save you hours of thankless grunt work later on. I've also created a <a href="https://github.com/samuelstanton/hydra-ray-demo">working example</a> to make things more concrete.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Package-Versions">Package Versions<a class="anchor-link" href="#Package-Versions">¶</a>
+</h3>
+<p>Hydra and Ray are in active development. Use the following commands to install Hydra and the Ray plugin.</p>
+
+<pre><code>pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb
+pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb#subdirectory=plugins/hydra_ray_launcher</code></pre>
+<p>I've pinned the installation to a specific commit because docker is not supported in the current release. When the next stable release is made available, I will update this section. The example should work with <code>ray==1.2.0</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="1.-Writing-Python-Scripts-with-Hydra-(Death-to-argparse)">1. Writing Python Scripts with Hydra (Death to argparse)<a class="anchor-link" href="#1.-Writing-Python-Scripts-with-Hydra-(Death-to-argparse)">¶</a>
+</h3>
+<p>I genuinely don't understand why people still use argparse, with all its boilerplate bloat. Let's take a simple example. Suppose I have the following function, <code>naptime</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">naptime</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'going to sleep'</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'waking up'</span><span class="p">)</span>
+
+<span class="n">naptime</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>going to sleep
+waking up
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I'd like to turn the function into a script <code>main.py</code>, and I want to be able to change the duration of the nap from the command line. Here's what you have to do with argparse:</p>
+
+<pre><code># /path/to/project/main.py
+import time
+import argparse
+
+def naptime(duration):...
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--duration', type=int, default=1)
+    args = parser.parse_args()
+    naptime(args.duration)</code></pre>
+<p><code>python main.py --duration 10</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That's all well and good. But what if I decide I want this program to be a full-blown naptime simulation, with GAN-generated dreams? Configuring such an application just from the command line will quickly become incredibly unwieldy. When I finally give in and start configuring my application with <code>.yaml</code> files, I need to add more boilerplate so that I can load the yaml config first, then process command-line overrides, and I still won't have a record of what I overrode unless I explicitly add logging boilerplate.</p>
+<p>Hydra solves all these problems, plus loads of extra functionality that make your life so much better. Here's how we'd do this with Hydra. We'd create a <code>config/</code> directory and create <code>config/main.yaml</code>.</p>
+
+<pre><code># /path/to/project/config/main.yaml
+defaults:
+    - hydra/launcher: basic
+
+duration: 1</code></pre>
+<p>The script is just a wrapper around the <code>runtime</code> function,</p>
+
+<pre><code># /path/to/project/main.py
+import time
+import hydra
+
+def naptime(duration):...
+
+hydra.main(config_path='./config', config_name='main')
+def main(config):
+    naptime(config.duration)
+
+if __name__ == '__main__':
+    main()</code></pre>
+<p><code>python main.py duration=10</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have all the flexibility we had before, but with automatic config and override logs, plus goodies like tab-completion if I've forgotten what flags to use.</p>
+<p>You also get Hydra's incredible composability features, which makes it easy to swap out different modules of code from the command line. I won't go into this in a lot of detail because it isn't the focus of the post, but <a href="https://hydra.cc/docs/tutorials/basic/your_first_app/config_groups">the documentation</a> is great.</p>
+<p>The features I just mentioned are worth the switch on their own merits, but we're not done. Hydra <em>also</em> includes plugins for cluster launchers (e.g. <a href="https://github.com/facebookincubator/submitit">SubmitIt</a>), and sweepers like <a href="https://ax.dev/">Ax</a> and <a href="https://github.com/facebookresearch/nevergrad">Nevergrad</a>. Crucially, the plugins are meant to work with no code changes and the same command line interface. And that's where our story really starts, with the <a href="https://hydra.cc/docs/plugins/ray_launcher">Hydra Ray plugin</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="2.-Configuring-AWS">2. Configuring AWS<a class="anchor-link" href="#2.-Configuring-AWS">¶</a>
+</h3>
+<p>After installing the plugin the first thing you need to do to use EC2 is make sure AWS is set up correctly. I'm going to assume you've already <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html">set up an AWS account</a>, <a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-limit/">requested a sufficient service quota</a>, and <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">configured your AWS CLI</a>. There is a lot of documentation and learning resources out there for this part, so I won't spend more time here.</p>
+<p>The Hydra Ray plugin documentation recommends setting up IAM roles for your head and worker nodes, as is done <a href="https://github.com/ray-project/ray/issues/9327">here</a>. This part is crucial to make sure your head node can spin up more workers, and to make sure both the head and worker nodes can access S3.</p>
+<p>In addition to using EC2 for compute resources, you can also use S3 to store output. I wrote a <a href="https://github.com/samuelstanton/upcycle/blob/master/upcycle/logging/s3_logger.py">simple dataframe logger</a> that writes directly to S3, as long as your AWS credentials are configured. At the end we can quickly pull all of our output to our local machine by running</p>
+<p><code>aws s3 sync s3://my-bucket/path/to/remote/ path/to/project/</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="3.-Containerizing-your-code">3. Containerizing your code<a class="anchor-link" href="#3.-Containerizing-your-code">¶</a>
+</h3>
+<p>For a simple program like <code>main.py</code>, containerization is obviously overkill. In practice ML research projects tend to have many dependencies, both at the system level (e.g. CUDA) and at the python environment level (PyTorch, Pandas, Torchvision, etc.). There is also typically dependency on source code that only exists in git repos. For many of us, retracing the steps we took to create a local compute environment is painful and time-consuming. Containerization adds some complexity upfront, but it ensures a stable environment from your code, free from the vagaries of package version changes and cluster system updates. To get started, you can try using <a href="https://hub.docker.com/repository/docker/samuelstanton/hydra-ray-demo">the image I've created</a>. Keep reading if you want
+to know how to make your own image.</p>
+<p>You'll add a Dockerfile to the working directory that looks something like <a href="https://github.com/samuelstanton/hydra-ray-demo/blob/main/Dockerfile">the one from my github example</a>,</p>
+
+<pre><code># /path/to/project/Dockerfile
+FROM ubuntu:18.04
+
+# Ray wants these lines
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+RUN apt update &amp;&amp; apt install software-properties-common -y
+# python3.8-dev includes headers that are needed to install pickle5 later
+RUN apt-get install python3.8-dev gcc -y
+# install python 3.8 virtual environment
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt update &amp;&amp; apt install python3.8-venv git -y
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3.8 -m venv $VIRTUAL_ENV
+ENV PATH=$VIRTUAL_ENV/bin:$PATH
+RUN python -m pip install --upgrade pip setuptools
+
+# install java, requirement to install hydra from source
+RUN apt install default-jre -y
+
+RUN mkdir src
+COPY hydra-ray-demo/ src/hydra-ray-demo/
+RUN python -m pip install -r src/hydra-ray-demo/requirements.txt
+WORKDIR src/hydra-ray-demo</code></pre>
+<p>There's a couple things to note about this Dockerfile. First, even though this is a container, we're still using a virtual python environment (and it's not conda). The reason for keeping the virtual python environment is it allows a clean separation between system-level packages managed with <code>apt</code> and environment-level packages managed with <code>pip</code>. We aren't using conda because Docker and conda don't play very nicely together. For conda to work as intended, you need to source your <code>.bashrc</code> and <code>.bash_profile</code> before running anything. This happens automatically if you start an interactive bash session, or use <code>/bin/bash --login -c</code>. The default shell for Docker is <code>/bin/sh</code>, which does <em>not</em> source those files. You can always hack the <code>PATH</code> environment variable, 
+but that won't necessarily replicate all the behavior of <code>conda activate</code>. Although I did initially try to use conda eventually I wound up using virtualenv instead. As a bonus, <a href="https://gist.github.com/samuelstanton/65a0a6855d6f3c4943164968c1310132">here's a gist</a> of how to write a Dockerfile that installs packages in a conda virtual environment, if you're set on using it.</p>
+<p>To build your Docker container you need to be outside the project directory. Once we've built the image, we'll push it to <a href="https://hub.docker.com/">DockerHub</a> to use later.</p>
+
+<pre><code>cd /path/to/project
+cd ..
+docker build . -f /path/to/project/Dockerfile --tag &lt;DOCKERHUB_USER&gt;/&lt;IMAGE_NAME&gt;:&lt;TAG&gt;
+docker push &lt;DOCKERHUB_USER&gt;/&lt;IMAGE_NAME&gt;:&lt;TAG&gt;</code></pre>
+<p>Note: Keep the contents of the parent directory to a minimum for fastest build times.</p>
+<p>After using docker for a while your storage will be quickly filled with fragments of previous images.
+Use <code>docker system prune -f</code> to clean that up.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="4.-Configuring-the-Hydra-Ray-Plugin">4. Configuring the Hydra Ray Plugin<a class="anchor-link" href="#4.-Configuring-the-Hydra-Ray-Plugin">¶</a>
+</h4>
+<p>Now we need to update our program config to accomodate the Hydra Ray launcher plugin. In order to maintain our ability to run our program locally, we'll make use of Hydra's composability and add another file, <code>config/hydra/launcher/ray_aws.yaml</code></p>
+
+<pre><code># /path/to/project/config/hydra/launcher/ray_aws.yaml
+_target_: hydra_plugins.hydra_ray_launcher.ray_aws_launcher.RayAWSLauncher
+env_setup:
+  pip_packages:
+    omegaconf: null
+    hydra_core: null
+    ray: null
+    cloudpickle: null
+    pickle5: null
+    hydra_ray_launcher: null
+  commands: []
+ray:
+  cluster:
+    cluster_name: demo-cluster
+    min_workers: 0
+    max_workers: 0
+    initial_workers: 0
+    autoscaling_mode: default
+    target_utilization_fraction: 0.8
+    idle_timeout_minutes: 5
+    docker:
+      image: 'samuelstanton/hydra-ray-demo:latest'
+      container_name: 'hydra-container'
+      pull_before_run: true
+      run_options: []
+    provider:
+      type: aws
+      region: us-east-2
+      availability_zone: us-east-2a,us-east-2b
+    auth:
+      ssh_user: ubuntu
+    head_node:
+      InstanceType: m4.large
+      ImageId: ami-010bc10395b6826fb
+    worker_nodes:
+      InstanceType: m4.large
+      ImageId: ami-010bc10395b6826fb
+stop_cluster: true</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="5.-Profit.">5. Profit.<a class="anchor-link" href="#5.-Profit.">¶</a>
+</h3>
+<p>At last we have arrived at our destination. If you recall, the command we used to run our program locally was <code>python main.py duration=10</code>. You can still run that command, and the program's behavior will be unchanged. To simultaneously excute several realizations of your program on EC2, simply use
+<code>python main.py -m hydra/launcher=ray_aws duration=1,2,4,8</code>, and you're off to the races!</p>
+<p>If you've stayed with me this long, thanks for reading! I hope you find this useful. I arrived at this procedure mostly through trial-and-error, so don't be afraid to try to improve on it!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Additional-Resources:">Additional Resources:<a class="anchor-link" href="#Additional-Resources:">¶</a>
+</h3>
+<ul>
+<li><a href="https://hydra.cc/docs/intro">Hydra docs</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/ai/" rel="tag">AI</a></li>
+            <li><a class="tag p-category" href="../../categories/aws/" rel="tag">aws</a></li>
+            <li><a class="tag p-category" href="../../categories/docker/" rel="tag">docker</a></li>
+            <li><a class="tag p-category" href="../../categories/ec2/" rel="tag">ec2</a></li>
+            <li><a class="tag p-category" href="../../categories/hydra/" rel="tag">hydra</a></li>
+            <li><a class="tag p-category" href="../../categories/ml/" rel="tag">ML</a></li>
+            <li><a class="tag p-category" href="../../categories/ray/" rel="tag">ray</a></li>
+            <li><a class="tag p-category" href="../../categories/research/" rel="tag">research</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../focus-groups-and-academic-reviews/" rel="prev" title="Focus Groups and Academic Reviews">Previous post</a>
+            </li>
+        </ul></nav></aside><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+        </script></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:ss13641@nyu.edu">Sam Stanton</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><center>
+<a href="https://twitter.com/samscub?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @samscub</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</center>
+
+
+    
+    <script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>

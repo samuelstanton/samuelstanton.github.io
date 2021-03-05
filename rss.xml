@@ -1,5 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Soup of the Day</title><link>https://samuelstanton.github.io/</link><description>Surplus thoughts, mixed and heated.</description><atom:link href="https://samuelstanton.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2020 &lt;a href="mailto:ss13641@nyu.edu"&gt;Sam Stanton&lt;/a&gt; </copyright><lastBuildDate>Thu, 13 Aug 2020 04:26:33 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Focus Groups and Academic Reviews</title><link>https://samuelstanton.github.io/blog/focus-groups-and-academic-reviews/</link><dc:creator>Sam Stanton</dc:creator><description>&lt;div&gt;&lt;p&gt;I've expressed the ideas that follow on Twitter, but for the sake
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Soup of the Day</title><link>https://samuelstanton.github.io/</link><description>Surplus thoughts, mixed and heated.</description><atom:link href="https://samuelstanton.github.io/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:ss13641@nyu.edu"&gt;Sam Stanton&lt;/a&gt; </copyright><lastBuildDate>Fri, 05 Mar 2021 18:12:44 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deploying Research Code with Hydra, Ray, and Docker</title><link>https://samuelstanton.github.io/blog/deploying-research-code/</link><dc:creator>Sam Stanton</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Deploying research code to a compute cluster is a pain. EC2 can be particularly thorny. My workflow in past projects usually looked something like this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Write code on a local machine&lt;/li&gt;
+&lt;li&gt;Manually spin up an EC2 instance&lt;/li&gt;
+&lt;li&gt;SSH into an instance, install the dependencies, and create an AMI&lt;/li&gt;
+&lt;li&gt;Spin up more instances with the new AMI, launch jobs individually&lt;/li&gt;
+&lt;li&gt;Manually collect output&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I try not to think about how many hours I've spent this way. While it's pretty obvious that most of the workflow can in principle be automated, the path to automation is long and treacherous. Most open-source projects only solve a part of the problem, and putting the pieces together often requires a fairly high level of sophistication on the part of the user.&lt;/p&gt;
+&lt;p&gt;This is the part where I ought to pitch my new amazing framework that will solve all your problems with a clean, simple UI. The truth is I don't think any framework exists that gives researchers the combination of flexibility and simplicity they want. Maybe &lt;a href="https://www.grid.ai/"&gt;Grid AI&lt;/a&gt; will get there someday. My hypothesis for why the problem of deploying research code is still so difficult is very simple. Researchers don't have the time or desire to learn frameworks. We want to write simple, transparent code that's easy to change, and then we want that same code to run on a cluster. In this post I'll take you through my process for scaling to EC2 clusters. It strikes a healthy balance between ease-of-use and flexibility. We'll be using the following packages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://hydra.cc/docs/intro/"&gt;Hydra&lt;/a&gt; for application configuration&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.ray.io/en/master/"&gt;Ray&lt;/a&gt; for cluster management&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.docker.com/"&gt;Docker&lt;/a&gt; to manage dependencies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Each of the following steps will take some time, and may need to be tweaked to suit your particular situation. Think of this more as an example than a comprehensive guide. To try to keep this post to a reasonable length, I won't be including details that are well-documented, like package installation. If things don't work for you at first, keep at it! A little time invested here will save you hours of thankless grunt work later on. I've also created a &lt;a href="https://github.com/samuelstanton/hydra-ray-demo"&gt;working example&lt;/a&gt; to make things more concrete.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Package-Versions"&gt;Package Versions&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#Package-Versions"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Hydra and Ray are in active development. Use the following commands to install Hydra and the Ray plugin.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb
+pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb#subdirectory=plugins/hydra_ray_launcher&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I've pinned the installation to a specific commit because docker is not supported in the current release. When the next stable release is made available, I will update this section. The example should work with &lt;code&gt;ray==1.2.0&lt;/code&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="1.-Writing-Python-Scripts-with-Hydra-(Death-to-argparse)"&gt;1. Writing Python Scripts with Hydra (Death to argparse)&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#1.-Writing-Python-Scripts-with-Hydra-(Death-to-argparse)"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;I genuinely don't understand why people still use argparse, with all its boilerplate bloat. Let's take a simple example. Suppose I have the following function, &lt;code&gt;naptime&lt;/code&gt;:&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In [1]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython3"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;naptime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;duration&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'going to sleep'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sleep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;duration&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'waking up'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;naptime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;
+
+    &lt;div class="prompt"&gt;&lt;/div&gt;
+
+
+&lt;div class="output_subarea output_stream output_stdout output_text"&gt;
+&lt;pre&gt;going to sleep
+waking up
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;I'd like to turn the function into a script &lt;code&gt;main.py&lt;/code&gt;, and I want to be able to change the duration of the nap from the command line. Here's what you have to do with argparse:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /path/to/project/main.py
+import time
+import argparse
+
+def naptime(duration):...
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--duration', type=int, default=1)
+    args = parser.parse_args()
+    naptime(args.duration)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;python main.py --duration 10&lt;/code&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;That's all well and good. But what if I decide I want this program to be a full-blown naptime simulation, with GAN-generated dreams? Configuring such an application just from the command line will quickly become incredibly unwieldy. When I finally give in and start configuring my application with &lt;code&gt;.yaml&lt;/code&gt; files, I need to add more boilerplate so that I can load the yaml config first, then process command-line overrides, and I still won't have a record of what I overrode unless I explicitly add logging boilerplate.&lt;/p&gt;
+&lt;p&gt;Hydra solves all these problems, plus loads of extra functionality that make your life so much better. Here's how we'd do this with Hydra. We'd create a &lt;code&gt;config/&lt;/code&gt; directory and create &lt;code&gt;config/main.yaml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /path/to/project/config/main.yaml
+defaults:
+    - hydra/launcher: basic
+
+duration: 1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The script is just a wrapper around the &lt;code&gt;runtime&lt;/code&gt; function,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /path/to/project/main.py
+import time
+import hydra
+
+def naptime(duration):...
+
+hydra.main(config_path='./config', config_name='main')
+def main(config):
+    naptime(config.duration)
+
+if __name__ == '__main__':
+    main()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;python main.py duration=10&lt;/code&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;Now we have all the flexibility we had before, but with automatic config and override logs, plus goodies like tab-completion if I've forgotten what flags to use.&lt;/p&gt;
+&lt;p&gt;You also get Hydra's incredible composability features, which makes it easy to swap out different modules of code from the command line. I won't go into this in a lot of detail because it isn't the focus of the post, but &lt;a href="https://hydra.cc/docs/tutorials/basic/your_first_app/config_groups"&gt;the documentation&lt;/a&gt; is great.&lt;/p&gt;
+&lt;p&gt;The features I just mentioned are worth the switch on their own merits, but we're not done. Hydra &lt;em&gt;also&lt;/em&gt; includes plugins for cluster launchers (e.g. &lt;a href="https://github.com/facebookincubator/submitit"&gt;SubmitIt&lt;/a&gt;), and sweepers like &lt;a href="https://ax.dev/"&gt;Ax&lt;/a&gt; and &lt;a href="https://github.com/facebookresearch/nevergrad"&gt;Nevergrad&lt;/a&gt;. Crucially, the plugins are meant to work with no code changes and the same command line interface. And that's where our story really starts, with the &lt;a href="https://hydra.cc/docs/plugins/ray_launcher"&gt;Hydra Ray plugin&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="2.-Configuring-AWS"&gt;2. Configuring AWS&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#2.-Configuring-AWS"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;After installing the plugin the first thing you need to do to use EC2 is make sure AWS is set up correctly. I'm going to assume you've already &lt;a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html"&gt;set up an AWS account&lt;/a&gt;, &lt;a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-instance-limit/"&gt;requested a sufficient service quota&lt;/a&gt;, and &lt;a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html"&gt;configured your AWS CLI&lt;/a&gt;. There is a lot of documentation and learning resources out there for this part, so I won't spend more time here.&lt;/p&gt;
+&lt;p&gt;The Hydra Ray plugin documentation recommends setting up IAM roles for your head and worker nodes, as is done &lt;a href="https://github.com/ray-project/ray/issues/9327"&gt;here&lt;/a&gt;. This part is crucial to make sure your head node can spin up more workers, and to make sure both the head and worker nodes can access S3.&lt;/p&gt;
+&lt;p&gt;In addition to using EC2 for compute resources, you can also use S3 to store output. I wrote a &lt;a href="https://github.com/samuelstanton/upcycle/blob/master/upcycle/logging/s3_logger.py"&gt;simple dataframe logger&lt;/a&gt; that writes directly to S3, as long as your AWS credentials are configured. At the end we can quickly pull all of our output to our local machine by running&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;aws s3 sync s3://my-bucket/path/to/remote/ path/to/project/&lt;/code&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="3.-Containerizing-your-code"&gt;3. Containerizing your code&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#3.-Containerizing-your-code"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;For a simple program like &lt;code&gt;main.py&lt;/code&gt;, containerization is obviously overkill. In practice ML research projects tend to have many dependencies, both at the system level (e.g. CUDA) and at the python environment level (PyTorch, Pandas, Torchvision, etc.). There is also typically dependency on source code that only exists in git repos. For many of us, retracing the steps we took to create a local compute environment is painful and time-consuming. Containerization adds some complexity upfront, but it ensures a stable environment from your code, free from the vagaries of package version changes and cluster system updates. To get started, you can try using &lt;a href="https://hub.docker.com/repository/docker/samuelstanton/hydra-ray-demo"&gt;the image I've created&lt;/a&gt;. Keep reading if you want
+to know how to make your own image.&lt;/p&gt;
+&lt;p&gt;You'll add a Dockerfile to the working directory that looks something like &lt;a href="https://github.com/samuelstanton/hydra-ray-demo/blob/main/Dockerfile"&gt;the one from my github example&lt;/a&gt;,&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /path/to/project/Dockerfile
+FROM ubuntu:18.04
+
+# Ray wants these lines
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+RUN apt update &amp;amp;&amp;amp; apt install software-properties-common -y
+# python3.8-dev includes headers that are needed to install pickle5 later
+RUN apt-get install python3.8-dev gcc -y
+# install python 3.8 virtual environment
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt update &amp;amp;&amp;amp; apt install python3.8-venv git -y
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3.8 -m venv $VIRTUAL_ENV
+ENV PATH=$VIRTUAL_ENV/bin:$PATH
+RUN python -m pip install --upgrade pip setuptools
+
+# install java, requirement to install hydra from source
+RUN apt install default-jre -y
+
+RUN mkdir src
+COPY hydra-ray-demo/ src/hydra-ray-demo/
+RUN python -m pip install -r src/hydra-ray-demo/requirements.txt
+WORKDIR src/hydra-ray-demo&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There's a couple things to note about this Dockerfile. First, even though this is a container, we're still using a virtual python environment (and it's not conda). The reason for keeping the virtual python environment is it allows a clean separation between system-level packages managed with &lt;code&gt;apt&lt;/code&gt; and environment-level packages managed with &lt;code&gt;pip&lt;/code&gt;. We aren't using conda because Docker and conda don't play very nicely together. For conda to work as intended, you need to source your &lt;code&gt;.bashrc&lt;/code&gt; and &lt;code&gt;.bash_profile&lt;/code&gt; before running anything. This happens automatically if you start an interactive bash session, or use &lt;code&gt;/bin/bash --login -c&lt;/code&gt;. The default shell for Docker is &lt;code&gt;/bin/sh&lt;/code&gt;, which does &lt;em&gt;not&lt;/em&gt; source those files. You can always hack the &lt;code&gt;PATH&lt;/code&gt; environment variable, 
+but that won't necessarily replicate all the behavior of &lt;code&gt;conda activate&lt;/code&gt;. Although I did initially try to use conda eventually I wound up using virtualenv instead. As a bonus, &lt;a href="https://gist.github.com/samuelstanton/65a0a6855d6f3c4943164968c1310132"&gt;here's a gist&lt;/a&gt; of how to write a Dockerfile that installs packages in a conda virtual environment, if you're set on using it.&lt;/p&gt;
+&lt;p&gt;To build your Docker container you need to be outside the project directory. Once we've built the image, we'll push it to &lt;a href="https://hub.docker.com/"&gt;DockerHub&lt;/a&gt; to use later.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd /path/to/project
+cd ..
+docker build . -f /path/to/project/Dockerfile --tag &amp;lt;DOCKERHUB_USER&amp;gt;/&amp;lt;IMAGE_NAME&amp;gt;:&amp;lt;TAG&amp;gt;
+docker push &amp;lt;DOCKERHUB_USER&amp;gt;/&amp;lt;IMAGE_NAME&amp;gt;:&amp;lt;TAG&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note: Keep the contents of the parent directory to a minimum for fastest build times.&lt;/p&gt;
+&lt;p&gt;After using docker for a while your storage will be quickly filled with fragments of previous images.
+Use &lt;code&gt;docker system prune -f&lt;/code&gt; to clean that up.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h4 id="4.-Configuring-the-Hydra-Ray-Plugin"&gt;4. Configuring the Hydra Ray Plugin&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#4.-Configuring-the-Hydra-Ray-Plugin"&gt;¶&lt;/a&gt;&lt;/h4&gt;&lt;p&gt;Now we need to update our program config to accomodate the Hydra Ray launcher plugin. In order to maintain our ability to run our program locally, we'll make use of Hydra's composability and add another file, &lt;code&gt;config/hydra/launcher/ray_aws.yaml&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# /path/to/project/config/hydra/launcher/ray_aws.yaml
+_target_: hydra_plugins.hydra_ray_launcher.ray_aws_launcher.RayAWSLauncher
+env_setup:
+  pip_packages:
+    omegaconf: null
+    hydra_core: null
+    ray: null
+    cloudpickle: null
+    pickle5: null
+    hydra_ray_launcher: null
+  commands: []
+ray:
+  cluster:
+    cluster_name: demo-cluster
+    min_workers: 0
+    max_workers: 0
+    initial_workers: 0
+    autoscaling_mode: default
+    target_utilization_fraction: 0.8
+    idle_timeout_minutes: 5
+    docker:
+      image: 'samuelstanton/hydra-ray-demo:latest'
+      container_name: 'hydra-container'
+      pull_before_run: true
+      run_options: []
+    provider:
+      type: aws
+      region: us-east-2
+      availability_zone: us-east-2a,us-east-2b
+    auth:
+      ssh_user: ubuntu
+    head_node:
+      InstanceType: m4.large
+      ImageId: ami-010bc10395b6826fb
+    worker_nodes:
+      InstanceType: m4.large
+      ImageId: ami-010bc10395b6826fb
+stop_cluster: true&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="5.-Profit."&gt;5. Profit.&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#5.-Profit."&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;At last we have arrived at our destination. If you recall, the command we used to run our program locally was &lt;code&gt;python main.py duration=10&lt;/code&gt;. You can still run that command, and the program's behavior will be unchanged. To simultaneously excute several realizations of your program on EC2, simply use
+&lt;code&gt;python main.py -m hydra/launcher=ray_aws duration=1,2,4,8&lt;/code&gt;, and you're off to the races!&lt;/p&gt;
+&lt;p&gt;If you've stayed with me this long, thanks for reading! I hope you find this useful. I arrived at this procedure mostly through trial-and-error, so don't be afraid to try to improve on it!&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h3 id="Additional-Resources:"&gt;Additional Resources:&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#Additional-Resources:"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://hydra.cc/docs/intro"&gt;Hydra docs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>AI</category><category>aws</category><category>docker</category><category>ec2</category><category>hydra</category><category>ML</category><category>ray</category><category>research</category><guid>https://samuelstanton.github.io/blog/deploying-research-code/</guid><pubDate>Fri, 05 Mar 2021 03:54:00 GMT</pubDate></item><item><title>Focus Groups and Academic Reviews</title><link>https://samuelstanton.github.io/blog/focus-groups-and-academic-reviews/</link><dc:creator>Sam Stanton</dc:creator><description>&lt;div&gt;&lt;p&gt;I've expressed the ideas that follow on Twitter, but for the sake
 of posterity I'll repeat my thoughts here.&lt;/p&gt;
 &lt;p&gt;As I prepare to respond to NeurIPS reviews, I've been reflecting on
 the analogy of conference proceedings to a marketplace,

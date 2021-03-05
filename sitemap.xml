@@ -7,46 +7,98 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://samuelstanton.github.io/</loc>
-  <lastmod>2020-08-31T18:08:00Z</lastmod>
+  <lastmod>2021-03-05T05:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/2020/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/2021/</loc>
+  <lastmod>2021-03-05T05:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/archive.html</loc>
-  <lastmod>2020-08-13T04:23:00Z</lastmod>
+  <lastmod>2021-03-05T05:06:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/bio/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/blog/</loc>
-  <lastmod>2020-08-13T04:23:00Z</lastmod>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/blog/deploying-research-code/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/blog/focus-groups-and-academic-reviews/</loc>
-  <lastmod>2020-08-13T04:23:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/blog/hello-world/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/blog/scaling-hydra-ec2/</loc>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/categories/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/ai/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/aws-ec2/</loc>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/aws/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/docker/</loc>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/ec2/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/hydra/</loc>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/ml/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/ray/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/research-code/</loc>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://samuelstanton.github.io/categories/research/</loc>
+  <lastmod>2021-03-05T18:12:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/listings/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/listings/hello.py.html</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
  <url>
   <loc>https://samuelstanton.github.io/pubs/</loc>
-  <lastmod>2020-08-13T04:16:00Z</lastmod>
+  <lastmod>2021-03-05T05:04:00Z</lastmod>
  </url>
 </urlset>
