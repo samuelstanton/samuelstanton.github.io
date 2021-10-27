@@ -139,11 +139,18 @@ Manually spin up">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Package-Versions">Package Versions<a class="anchor-link" href="#Package-Versions">¶</a>
 </h3>
-<p>Hydra and Ray are in active development. Use the following commands to install Hydra and the Ray plugin.</p>
+<p>Hydra and Ray are in active development. Run <code>pip install -r requirements.txt</code> with the following requirements to set up your environment.</p>
 
-<pre><code>pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb
-pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb#subdirectory=plugins/hydra_ray_launcher</code></pre>
-<p>I've pinned the installation to a specific commit because docker is not supported in the current release. When the next stable release is made available, I will update this section. The example should work with <code>ray==1.2.0</code>.</p>
+<pre><code># /path/to/project/requirements.txt
+omegaconf==2.1.0.dev26
+hydra-core==1.1.0.dev6
+ray==1.2.0
+cloudpickle==1.6.0
+pickle5==0.0.11
+hydra-ray-launcher==1.1.0.dev1</code></pre>
+<p>I've pinned the packages to specific versions that I use across several projects. 
+The packages should ultimately be pinned to stable release versions, but once I find a combination of package versions that works I tend to lock it down and never touch it again.
+Pinning package versions will save you a lot of headaches if you want to be able to deploy your code without changes six months after you wrote it.</p>
 
 </div>
 </div>

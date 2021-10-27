@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Soup of the Day (Posts about ML)</title><link>https://samuelstanton.github.io/</link><description></description><atom:link href="https://samuelstanton.github.io/categories/ml.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:ss13641@nyu.edu"&gt;Sam Stanton&lt;/a&gt; </copyright><lastBuildDate>Mon, 18 Oct 2021 05:27:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deploying Research Code with Hydra, Ray, and Docker</title><link>https://samuelstanton.github.io/blog/deploying-research-code/</link><dc:creator>Sam Stanton</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Soup of the Day (Posts about ML)</title><link>https://samuelstanton.github.io/</link><description></description><atom:link href="https://samuelstanton.github.io/categories/ml.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:ss13641@nyu.edu"&gt;Sam Stanton&lt;/a&gt; </copyright><lastBuildDate>Wed, 27 Oct 2021 16:33:19 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deploying Research Code with Hydra, Ray, and Docker</title><link>https://samuelstanton.github.io/blog/deploying-research-code/</link><dc:creator>Sam Stanton</dc:creator><description>&lt;div&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;p&gt;Deploying research code to a compute cluster is a pain. EC2 can be particularly thorny. My workflow in past projects usually looked something like this:&lt;/p&gt;
@@ -25,11 +25,18 @@
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h3 id="Package-Versions"&gt;Package Versions&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#Package-Versions"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Hydra and Ray are in active development. Use the following commands to install Hydra and the Ray plugin.&lt;/p&gt;
+&lt;h3 id="Package-Versions"&gt;Package Versions&lt;a class="anchor-link" href="https://samuelstanton.github.io/blog/deploying-research-code/#Package-Versions"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Hydra and Ray are in active development. Run &lt;code&gt;pip install -r requirements.txt&lt;/code&gt; with the following requirements to set up your environment.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb
-pip install git+https://github.com/facebookresearch/hydra.git@7e7832f72664b40ee04834ac8956e7146a3d37fb#subdirectory=plugins/hydra_ray_launcher&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I've pinned the installation to a specific commit because docker is not supported in the current release. When the next stable release is made available, I will update this section. The example should work with &lt;code&gt;ray==1.2.0&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# /path/to/project/requirements.txt
+omegaconf==2.1.0.dev26
+hydra-core==1.1.0.dev6
+ray==1.2.0
+cloudpickle==1.6.0
+pickle5==0.0.11
+hydra-ray-launcher==1.1.0.dev1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I've pinned the packages to specific versions that I use across several projects. 
+The packages should ultimately be pinned to stable release versions, but once I find a combination of package versions that works I tend to lock it down and never touch it again.
+Pinning package versions will save you a lot of headaches if you want to be able to deploy your code without changes six months after you wrote it.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;

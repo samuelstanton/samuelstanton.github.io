@@ -7,46 +7,42 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/ai.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/aws.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/docker.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/ec2.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/hydra.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/ml.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/ray.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/categories/research.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
- </sitemap>
- <sitemap>
-  <loc>https://samuelstanton.github.io/galleries/rss.xml</loc>
-  <lastmod>2021-10-18T05:33:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/rss.xml</loc>
-  <lastmod>2021-10-18T05:27:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://samuelstanton.github.io/sitemap.xml</loc>
-  <lastmod>2021-10-18T05:33:00Z</lastmod>
+  <lastmod>2021-10-27T16:33:00Z</lastmod>
  </sitemap>
 </sitemapindex>
