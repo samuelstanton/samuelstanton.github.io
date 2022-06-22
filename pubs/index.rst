@@ -9,12 +9,12 @@
 
 | **Accelerating Bayesian Optimization for Biological Sequence Design with Denoising Autoencoders**
 | Samuel Stanton, Wesley Maddox, Nate Gruver, Phillip Maffettone, Emily Delaney, Peyton Greenside, Andrew Gordon Wilson
-| *Advances in Neural Information Processing Systems 36* (NeurIPS 2022)
+| *International Conference on Machine Vision and Machine Learning 39* (ICML 2022)
 | https://arxiv.org/abs/2203.12742
 |
 | **Deconstructing The Inductive Biases Of Hamiltonian Neural Networks**
 | Nate Gruver, Marc Finzi, Samuel Stanton, Andrew Gordon Wilson
-| *Tenth International Conference on Learning Representations* (ICLR 2022)
+| *International Conference on Learning Representations 10* (ICLR 2022)
 | https://arxiv.org/abs/2202.04836
 |
 | **Robust Reinforcement Learning for Shifting Dynamics During Deployment**
@@ -44,15 +44,19 @@ __ robust-rl-paper_
 |
 | **Kernel Interpolation for Scalable Online Gaussian Processes**
 | Samuel Stanton, Wesley Maddox, Ian Delbridge, Andrew Gordon Wilson
-| *The 24th International Conference on Artificial Intelligence and Statistics* (AISTATS 2021)
+| *International Conference on Artificial Intelligence and Statistics 24* (AISTATS 2021)
 | https://arxiv.org/abs/2103.01454
 | 
 | **Generalizing Convolutional Neural Networks for Equivariance to Lie Groups on Arbitrary Continuous Data**
 | Marc Finzi, Samuel Stanton, Pavel Izmailov, Andrew Gordon Wilson
-| *2020 International Conference on Machine Vision and Machine Learning* (ICML 2020)
+| *International Conference on Machine Vision and Machine Learning 37* (ICML 2020)
 | https://arxiv.org/abs/2002.12880
 |
 | **Beyond the Dublin Regulation: An Algorithm for Redistributing Disproportionate Numbers of Asylum Applications**
 | Samuel Stanton
 | *Undergraduate Thesis*
-| https://samuelstanton.github.io/StantonHonorsThesis.pdf
+| `[paper]`__
+
+.. _undergrad-thesis: https://samuelstanton.github.io/StantonHonorsThesis.pdf
+
+__ undergrad-thesis_
