@@ -7,6 +7,23 @@
 .. description:
 .. type: text
 
+| **Accelerating Bayesian Optimization for Biological Sequence Design with Denoising Autoencoders**
+| Samuel Stanton, Wesley Maddox, Nate Gruver, Phillip Maffettone, Emily Delaney, Peyton Greenside, Andrew Gordon Wilson
+| *Advances in Neural Information Processing Systems 36* (NeurIPS 2022)
+| https://arxiv.org/abs/2202.04836
+|
+| **Deconstructing The Inductive Biases Of Hamiltonian Neural Networks**
+| Nate Gruver, Marc Finzi, Samuel Stanton, Andrew Gordon Wilson
+| *Tenth International Conference on Learning Representations* (ICLR 2022)
+| https://arxiv.org/abs/2202.04836
+|
+| **Robust Reinforcement Learning for Shifting Dynamics During Deployment**
+| Samuel Stanton, Rasool Fakoor, Jonas Mueller, Andrew Gordon Wilson, Alex Smola
+| *The 2021 NeurIPS Workshop on Safe and Robust Control of Uncertain Systems*
+| `paper`__
+.. _robust-rl-paper: https://assets.amazon.science/33/d8/db4f53b44e2c8efc98fc6d919c67/robust-reinforcement-learning-for-shifting-dynamics-during-deployment.pdf
+__ robust-rl-paper_
+|
 | **Does Knowledge Distillation Really Work?**
 | Samuel Stanton, Pavel Izmailov, Polina Kirichenko, Alex Alemi, Andrew Gordon Wilson
 | *Advances in Neural Information Processing Systems 35* (NeurIPS 2021)
@@ -15,7 +32,7 @@
 | **Conditioning Sparse Variational Gaussian Processes for Online Decision-Making**
 | Wesley Maddox, Samuel Stanton, Andrew Gordon Wilson
 | *Advances in Neural Information Processing Systems 35* (NeurIPS 2021)
-| Preprint coming soon!
+| https://arxiv.org/abs/2110.15172
 |
 | **On the Model-Based Stochastic Value Gradient for Continuous Reinforcement Learning**
 | Brandon Amos, Samuel Stanton, Denis Yarats, Andrew Gordon Wilson
