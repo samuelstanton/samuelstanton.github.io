@@ -1102,7 +1102,7 @@ MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.c
 # (translatable)
 SOCIAL_BUTTONS_CODE = """
 <center>
-<a href="https://twitter.com/samscub?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @samscub</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<a href="https://twitter.com/samuel_stanton_?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @samuel_stanton_</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </center>
 """
 # <!-- Social buttons -->
