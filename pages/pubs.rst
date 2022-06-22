@@ -6,6 +6,7 @@
 .. link:
 .. description:
 .. type: text
+.. _robust-rl-paper: https://assets.amazon.science/33/d8/db4f53b44e2c8efc98fc6d919c67/robust-reinforcement-learning-for-shifting-dynamics-during-deployment.pdf
 
 | **Accelerating Bayesian Optimization for Biological Sequence Design with Denoising Autoencoders**
 | Samuel Stanton, Wesley Maddox, Nate Gruver, Phillip Maffettone, Emily Delaney, Peyton Greenside, Andrew Gordon Wilson
@@ -20,7 +21,7 @@
 | **Robust Reinforcement Learning for Shifting Dynamics During Deployment**
 | Samuel Stanton, Rasool Fakoor, Jonas Mueller, Andrew Gordon Wilson, Alex Smola
 | *The 2021 NeurIPS Workshop on Safe and Robust Control of Uncertain Systems*
-| `paper<https://assets.amazon.science/33/d8/db4f53b44e2c8efc98fc6d919c67/robust-reinforcement-learning-for-shifting-dynamics-during-deployment.pdf>`_
+| robust-rl-paper_
 |
 | **Does Knowledge Distillation Really Work?**
 | Samuel Stanton, Pavel Izmailov, Polina Kirichenko, Alex Alemi, Andrew Gordon Wilson
