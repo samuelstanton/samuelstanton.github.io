@@ -7,6 +7,11 @@
 .. description:
 .. type: text
 
+| **Bayesian Optimization with Conformal Coverage Guarantees**
+| Samuel Stanton, Wesley Maddox, Andrew Gordon Wilson
+| *preprint, under review*
+| https://arxiv.org/abs/2210.12496
+|
 | **Accelerating Bayesian Optimization for Biological Sequence Design with Denoising Autoencoders**
 | Samuel Stanton, Wesley Maddox, Nate Gruver, Phillip Maffettone, Emily Delaney, Peyton Greenside, Andrew Gordon Wilson
 | *International Conference on Machine Vision and Machine Learning 39* (ICML 2022)
