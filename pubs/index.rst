@@ -67,9 +67,9 @@ __ robust-rl-paper_
 | *NYU Doctoral Dissertation*
 | `[pdf]`__
 
-.. _dissertation: https://samuelstanton.github.io/samuel_stanton_dissertation.pdf
+.. _phd-dissertation: https://samuelstanton.github.io/samuel_stanton_dissertation.pdf
 
-__ dissertation_
+__ phd-dissertation_
 
 |
 | **Beyond the Dublin Regulation: An Algorithm for Redistributing Disproportionate Numbers of Asylum Applications**
