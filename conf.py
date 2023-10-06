@@ -16,7 +16,7 @@ import time
 
 
 # Data about this site
-BLOG_AUTHOR = "Sam Stanton"  # (translatable)
+BLOG_AUTHOR = "Samuel Stanton"  # (translatable)
 BLOG_TITLE = "Soup of the Day"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
@@ -24,7 +24,7 @@ SITE_URL = "https://samuelstanton.github.io/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://samuelstanton.github.io/"
-BLOG_EMAIL = "ss13641@nyu.edu"
+BLOG_EMAIL = "stanton.samuel@gene.com"
 BLOG_DESCRIPTION = "Surplus thoughts, mixed and heated."  # (translatable)
 
 # Nikola is multilingual!
@@ -143,7 +143,7 @@ NAVIGATION_LINKS = {
         ("/blog/", "Blog"),
 	("/pubs", "Publications"),
 	("/bio/", "Bio"),
-	("/sam_stanton_cv.pdf", "CV"),
+	("/samuel_stanton_cv.pdf", "Curriculum Vitae"),
     ),
 }
 
