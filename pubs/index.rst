@@ -30,7 +30,7 @@
 | **Robust Reinforcement Learning for Shifting Dynamics During Deployment**
 | Samuel Stanton, Rasool Fakoor, Jonas Mueller, Andrew G. Wilson, Alex Smola
 | *The 2021 NeurIPS Workshop on Safe and Robust Control of Uncertain Systems*
-| `[paper]`__
+| `[pdf]`__
 
 .. _robust-rl-paper: https://assets.amazon.science/33/d8/db4f53b44e2c8efc98fc6d919c67/robust-reinforcement-learning-for-shifting-dynamics-during-deployment.pdf
 
@@ -69,7 +69,7 @@ __ robust-rl-paper_
 
 .. _dissertation: https://samuelstanton.github.io/samuel_stanton_dissertation.pdf
 
-__ _dissertation_
+__ dissertation_
 
 |
 | **Beyond the Dublin Regulation: An Algorithm for Redistributing Disproportionate Numbers of Asylum Applications**
