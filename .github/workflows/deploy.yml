@@ -18,17 +18,15 @@ jobs:
         python-version: 3.9
 
     - name: Install uv
-      run: |
-        pip install uv
+      uses: astral-sh/setup-uv@v5
 
     - name: Install dependencies
-      run: |
-        uv pip install jupyter-book matplotlib numpy ghp-import
+      run: uv sync
 
     # Build the book
     - name: Build the book
       run: |
-        jupyter-book build .
+        uv run jupyter-book build .
 
     # Deploy the book's HTML to gh-pages branch
     - name: GitHub Pages action
