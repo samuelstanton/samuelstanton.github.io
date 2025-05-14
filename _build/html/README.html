@@ -150,8 +150,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="_static/samuel_stanton_portrait_square.jpg" class="logo__image only-light" alt="Soup of the Day - Home"/>
+    <script>document.write(`<img src="_static/samuel_stanton_portrait_square.jpg" class="logo__image only-dark" alt="Soup of the Day - Home"/>`);</script>
   
-    <p class="title logo__title">Soup of the Day</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -387,6 +393,8 @@ uv<span class="w"> </span>sync
 <h3>Building the website<a class="headerlink" href="#building-the-website" title="Link to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build the book</span>
 jupyter-book<span class="w"> </span>build<span class="w"> </span>.
+<span class="c1"># Deploy the book</span>
+ghp-import<span class="w"> </span>-n<span class="w"> </span>-p<span class="w"> </span>-f<span class="w"> </span>_build/html
 
 <span class="c1"># View the book locally</span>
 open<span class="w"> </span>_build/html/index.html

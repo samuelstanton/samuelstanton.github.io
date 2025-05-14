@@ -63,9 +63,9 @@ Marc Finzi, Samuel Stanton, Pavel Izmailov, Andrew G. Wilson
 **Probabilistic Machine Learning for Online Decision-Making**  
 Samuel Stanton  
 *NYU Doctoral Dissertation*  
-[[pdf]](../files/samuel_stanton_dissertation.pdf)
+[[pdf]](/files/samuel_stanton_dissertation.pdf)
 
 **Beyond the Dublin Regulation: An Algorithm for Redistributing Disproportionate Numbers of Asylum Applications**  
 Samuel Stanton  
 *CU Denver Undergraduate Thesis*  
-[[pdf]](../files/samuel_stanton_undergrad_thesis.pdf)
+[[pdf]](/files/samuel_stanton_undergrad_thesis.pdf)
