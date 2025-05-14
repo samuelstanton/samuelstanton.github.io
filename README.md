@@ -25,11 +25,3 @@ ghp-import -n -p -f _build/html
 # View the book locally
 open _build/html/index.html
 ```
-
-### Deployment
-
-The website is automatically deployed to GitHub Pages when changes are pushed to the main branch, using GitHub Actions.
-
-## License
-
-Content is copyright © Samuel Stanton
