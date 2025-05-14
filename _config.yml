@@ -1,1 +1,49 @@
-theme: jekyll-theme-tactile
+# Book settings
+title: Soup of the Day
+author: Samuel Stanton
+logo: images/samuel_stanton_portrait_square.jpg
+copyright: "2023"
+email: sdstanton1@gmail.com
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: auto
+  timeout: 100
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_documents:
+    targetname: book.tex
+
+# Add a bibtex file so that we can create citations
+# bibtex_bibfiles:
+#   - references.bib
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/samuelstanton/samuelstanton.github.io
+  branch: main
+
+# Add GitHub buttons to your book
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  use_issues_button: false
+  use_repository_button: true
+  use_edit_page_button: false
+  favicon: files/favicon.ico
+  extra_navbar: |
+    <a href="files/samuel_stanton_cv.pdf">Curriculum Vitae</a>
+  
+# Enable math rendering
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - dollarmath
+    - linkify
+
+sphinx:
+  config:
+    html_extra_path: ['files']
+    html_js_files:
+      - https://platform.twitter.com/widgets.js

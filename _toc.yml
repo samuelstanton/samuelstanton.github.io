@@ -1,0 +1,16 @@
+# Table of contents
+format: jb-book
+
+root: index
+parts:
+  - caption: About
+    chapters:
+      - file: bio
+      - file: pubs
+  - caption: Blog
+    chapters:
+      - file: blog/index
+        sections:
+          - file: blog/ec2_scaling_with_hydra
+          - file: blog/focus-groups-and-academic-reviews
+          - file: blog/hello-world

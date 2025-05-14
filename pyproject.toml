@@ -1,0 +1,27 @@
+[project]
+name = "samuel-stanton-website"
+version = "0.1.0"
+description = "Samuel Stanton's personal website"
+authors = [
+    {name = "Samuel Stanton", email = "sdstanton1@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+dependencies = [
+    "jupyter-book>=0.13.0",
+    "matplotlib",
+    "numpy",
+    "ghp-import",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+]
+
+[tool.ruff]
+select = ["E", "F", "I"]
+line-length = 88
+target-version = "py39"
