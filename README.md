@@ -9,12 +9,9 @@ This repository contains the source code for my personal website, built with [Ju
 This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
 
 ```bash
-# Install uv if not already installed
-pip install uv
-
 # Create a virtual environment and install dependencies
-uv venv
-uv pip install -e .
+uv sync
+source .venv/bin/activate
 ```
 
 ### Building the website
