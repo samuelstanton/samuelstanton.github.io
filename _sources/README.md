@@ -19,6 +19,8 @@ source .venv/bin/activate
 ```bash
 # Build the book
 jupyter-book build .
+# Deploy the book
+ghp-import -n -p -f _build/html
 
 # View the book locally
 open _build/html/index.html
