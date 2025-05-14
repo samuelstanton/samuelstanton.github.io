@@ -4,6 +4,6 @@ __pycache__
 output
 .ipynb_checkpoints
 .DS_Store
-
+_build
 
 **/.claude/settings.local.json
