@@ -13,6 +13,5 @@ When not occupied with research, I enjoy volleyball, rock climbing, surfing, and
 
 ---
 
-## CV
-**Curriculum Vitae**  
+## Curriculum Vitae
 [[pdf]](/files/samuel_stanton_cv.pdf)
