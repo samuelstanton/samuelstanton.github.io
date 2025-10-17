@@ -10,6 +10,7 @@ parts:
   - caption: Blog
     chapters:
       - file: blog/index
+      - file: blog/legacy-companies-and-ai
       - file: blog/ec2_scaling_with_hydra
       - file: blog/focus-groups-and-academic-reviews
       - file: blog/hello-world
