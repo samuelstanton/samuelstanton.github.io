@@ -8,8 +8,8 @@ parts:
       - file: bio
       - file: pubs
   - caption: Blog
+    file: blog/index
     chapters:
-      - file: blog/index
       - file: blog/legacy-companies-and-ai
       - file: blog/ec2_scaling_with_hydra
       - file: blog/focus-groups-and-academic-reviews
