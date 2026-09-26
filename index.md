@@ -1,3 +1,5 @@
 # Samuel Stanton
 
+I'm a member of technical staff on the Life Science Research team at Anthropic, working on AI for scientific discovery.
+
 I am interested in foundational machine learning research with applications that promote human flourishing, particularly the life sciences. I wish to understand and design self-directed intelligent systems that automatically collect and incorporate the necessary information to make difficult decisions in consequential online settings. Applications of my work include control algorithms for robotic systems, efficient data collection strategies for public health surveillance, and lab-in-the-loop experimental design for antibody engineering.
