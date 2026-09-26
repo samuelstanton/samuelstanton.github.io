@@ -2,7 +2,7 @@
 
 *October 17, 2025*
 
-There is a world of difference between inking a deal with the frontier lab du jour to satisfy a board of directors that the company is "doing AI", and actually embracing technological phase change.
+There is a world of difference between inking a deal with the frontier lab _du jour_ to satisfy a board of directors that the company is "doing AI", and actually embracing technological phase change.
 
 Legacy companies are not seeing much value from many of their AI pilots so far [[1]](#ref1). 
 
