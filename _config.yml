@@ -36,8 +36,6 @@ html:
   use_repository_button: true
   use_edit_page_button: false
   favicon: files/favicon.ico
-  extra_navbar: |
-    <a href="files/samuel_stanton_cv.pdf">Curriculum Vitae</a>
   
 # Enable math rendering
 parse:
