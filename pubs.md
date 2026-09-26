@@ -1,28 +1,53 @@
 # Publications
 
+**Conformal Policy Control**  
+Drew Prinster, Clara Fannjiang, Ji Won Park, Kyunghyun Cho, Anqi Liu, Suchi Saria, Samuel Stanton  
+*Proceedings of the 43rd International Conference on Machine Learning* (ICML 2026)  
+[https://arxiv.org/abs/2603.02196](https://arxiv.org/abs/2603.02196)
+
+**Disentangling Multispecific Antibody Function with Graph Neural Networks**  
+Joshua Southern, Changpeng Lu, Santrupti Nerli, Samuel Stanton, Andrew M. Watkins, Franziska Seeger, Frédéric A. Dreyer  
+*arXiv preprint* (2026)  
+[https://arxiv.org/abs/2601.23212](https://arxiv.org/abs/2601.23212)
+
+**CDR Conformation Aware Antibody Sequence Design with ConformAb**  
+Imee Sinha, Samuel Stanton, Stephen Lillington, Sarah Robinson, Santrupti Nerli, Karina Zadorozhny, Joseph Kleinhenz, et al.  
+*bioRxiv preprint* (2025)  
+[https://doi.org/10.1101/2025.11.12.688095](https://doi.org/10.1101/2025.11.12.688095)
+
 **Generalists vs. Specialists: Evaluating LLMs on Highly-Constrained Biophysical Sequence Optimization Tasks**  
-Angelica Chen, Samuel Stanton, Frances Ding, Robert Alberstein, Andrew Watkins, Kyunghyun Cho, Nathan Frey  
-*Proceedings of the 42nd International Conference on Machine Learning*  
+Angelica Chen, Samuel Stanton, Frances Ding, Robert G. Alberstein, Andrew M. Watkins, Richard Bonneau, Vladimir Gligorijević, Kyunghyun Cho, Nathan C. Frey  
+*Proceedings of the 42nd International Conference on Machine Learning* (ICML 2025)  
 [https://arxiv.org/abs/2410.22296](https://arxiv.org/abs/2410.22296)
 
-**Conformal Validity Guarantees Exist for Any Data Distribution**  
-Drew Prinster, Samuel Stanton, Angie Liu, and Suchi Saria  
-*Proceedings of the 41st International Conference on Machine Learning*  
+**Concept Bottleneck Language Models for Protein Design**  
+Aya Abdelsalam Ismail, Tuomas Oikarinen, Amy Wang, Julius Adebayo, Samuel Stanton, Taylor Joren, Joseph Kleinhenz, Allen Goodman, Héctor Corrada Bravo, Kyunghyun Cho, Nathan C. Frey  
+*International Conference on Learning Representations 13* (ICLR 2025)  
+[https://arxiv.org/abs/2411.06090](https://arxiv.org/abs/2411.06090)
+
+**Lab-in-the-Loop Therapeutic Antibody Design with Deep Learning**  
+Nathan C. Frey, Isidro Hötzel, Samuel Stanton, Ryan Kelly, Robert G. Alberstein, et al.  
+*bioRxiv preprint* (2025)  
+[https://doi.org/10.1101/2025.02.19.639050](https://doi.org/10.1101/2025.02.19.639050)
+
+**Conformal Validity Guarantees Exist for Any Data Distribution (and How to Find Them)**  
+Drew Prinster, Samuel Stanton, Anqi Liu, and Suchi Saria  
+*Proceedings of the 41st International Conference on Machine Learning* (ICML 2024)  
 [https://arxiv.org/abs/2405.06627](https://arxiv.org/abs/2405.06627)
 
 **Protein Design with Guided Discrete Diffusion**  
 Nate Gruver, Samuel Stanton, Nathan C. Frey, Tim G. J. Rudner, Isidro Hotzel, Julien Lafrance-Vanasse, Arvind Rajpal, Kyunghyun Cho, and Andrew G. Wilson  
-*Advances in Neural Information Processing Systems 37* (NeurIPS 2023)  
+*Advances in Neural Information Processing Systems 36* (NeurIPS 2023)  
 [https://arxiv.org/abs/2305.20009](https://arxiv.org/abs/2305.20009)
 
-**Bayesian Optimization with Conformal Coverage Guarantees**  
+**Bayesian Optimization with Conformal Prediction Sets**  
 Samuel Stanton, Wesley Maddox, Andrew G. Wilson  
 *International Conference on Artificial Intelligence and Statistics 26* (AISTATS 2023)  
 [https://arxiv.org/abs/2210.12496](https://arxiv.org/abs/2210.12496)
 
 **Accelerating Bayesian Optimization for Biological Sequence Design with Denoising Autoencoders**  
 Samuel Stanton, Wesley Maddox, Nate Gruver, Phillip Maffettone, Emily Delaney, Peyton Greenside, Andrew G. Wilson  
-*International Conference on Machine Vision and Machine Learning 39* (ICML 2022)  
+*International Conference on Machine Learning 39* (ICML 2022)  
 [https://arxiv.org/abs/2203.12742](https://arxiv.org/abs/2203.12742)
 
 **Deconstructing The Inductive Biases Of Hamiltonian Neural Networks**  
@@ -37,12 +62,12 @@ Samuel Stanton, Rasool Fakoor, Jonas Mueller, Andrew G. Wilson, Alex Smola
 
 **Does Knowledge Distillation Really Work?**  
 Samuel Stanton, Pavel Izmailov, Polina Kirichenko, Alex Alemi, Andrew G. Wilson  
-*Advances in Neural Information Processing Systems 35* (NeurIPS 2021)  
+*Advances in Neural Information Processing Systems 34* (NeurIPS 2021)  
 [https://arxiv.org/abs/2106.05945](https://arxiv.org/abs/2106.05945)
 
 **Conditioning Sparse Variational Gaussian Processes for Online Decision-Making**  
 Wesley Maddox, Samuel Stanton, Andrew G. Wilson  
-*Advances in Neural Information Processing Systems 35* (NeurIPS 2021)  
+*Advances in Neural Information Processing Systems 34* (NeurIPS 2021)  
 [https://arxiv.org/abs/2110.15172](https://arxiv.org/abs/2110.15172)
 
 **On the Model-Based Stochastic Value Gradient for Continuous Reinforcement Learning**  
@@ -57,7 +82,7 @@ Samuel Stanton, Wesley Maddox, Ian Delbridge, Andrew G. Wilson
 
 **Generalizing Convolutional Neural Networks for Equivariance to Lie Groups on Arbitrary Continuous Data**  
 Marc Finzi, Samuel Stanton, Pavel Izmailov, Andrew G. Wilson  
-*International Conference on Machine Vision and Machine Learning 37* (ICML 2020)  
+*International Conference on Machine Learning 37* (ICML 2020)  
 [https://arxiv.org/abs/2002.12880](https://arxiv.org/abs/2002.12880)
 
 **Probabilistic Machine Learning for Online Decision-Making**  
@@ -69,3 +94,10 @@ Samuel Stanton
 Samuel Stanton  
 *CU Denver Undergraduate Thesis*  
 [[pdf]](/files/samuel_stanton_undergrad_thesis.pdf)
+
+## Patents
+
+**Molecule Design with Multi-Objective Optimization of Partially Ordered, Mixed-Variable Molecular Properties**  
+Ji Won Park, Samuel Stanton, Andrew M. Watkins, Kyunghyun Cho  
+*US Patent 12,580,043* (2026)  
+[https://patents.google.com/patent/US12580043B2](https://patents.google.com/patent/US12580043B2)

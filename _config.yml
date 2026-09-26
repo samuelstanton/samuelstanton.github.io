@@ -5,6 +5,10 @@ logo: files/images/samuel_stanton_portrait_square.jpg
 copyright: "2023"
 email: sdstanton1@gmail.com
 
+# Only build pages listed in _toc.yml, so drafts, READMEs, and .venv are never published
+only_build_toc_files: true
+exclude_patterns: [.venv, _build]
+
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
