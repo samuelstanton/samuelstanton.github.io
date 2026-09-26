@@ -4,7 +4,7 @@
 
 There is a world of difference between inking a deal with the frontier lab _du jour_ to satisfy a board of directors that the company is "doing AI", and actually embracing technological phase change.
 
-Legacy companies are not seeing much value from many of their AI pilots so far [[1]](#ref1). 
+Legacy companies are not seeing much value from many of their AI pilots so far[^1]. 
 
 Why is that? Cynics and skeptics would have you believe the tech is to blame. I think there is a much more mundane explanation. Most companies are simply not prepared to use the tech effectively. What is required for an organization to use AI effectively? 
 
@@ -21,6 +21,4 @@ They will struggle because AI demands what corporate culture systematically erod
 
 In the end, legacy companies will blame AI for failing to fix institutional problems that are all too human. And they will be surpassed.
 
----
-
-[1] Estrada, S. (2025, August 18). MIT report: 95% of generative AI pilots at companies are failing. *Fortune*. https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/
+[^1]: Estrada, S. (2025, August 18). MIT report: 95% of generative AI pilots at companies are failing. *Fortune*. https://fortune.com/2025/08/18/mit-report-95-percent-generative-ai-pilots-at-companies-failing-cfo/
