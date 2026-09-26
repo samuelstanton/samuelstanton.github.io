@@ -35,11 +35,6 @@ Drew Prinster, Samuel Stanton, Anqi Liu, and Suchi Saria
 *Proceedings of the 41st International Conference on Machine Learning* (ICML 2024)  
 [https://arxiv.org/abs/2405.06627](https://arxiv.org/abs/2405.06627)
 
-**Closed-Form Test Functions for Biophysical Sequence Optimization Algorithms**  
-Samuel Stanton, Robert Alberstein, Nathan Frey, Andrew Watkins, Kyunghyun Cho  
-*arXiv preprint* (2024)  
-[https://arxiv.org/abs/2407.00236](https://arxiv.org/abs/2407.00236)
-
 **Protein Design with Guided Discrete Diffusion**  
 Nate Gruver, Samuel Stanton, Nathan C. Frey, Tim G. J. Rudner, Isidro Hotzel, Julien Lafrance-Vanasse, Arvind Rajpal, Kyunghyun Cho, and Andrew G. Wilson  
 *Advances in Neural Information Processing Systems 36* (NeurIPS 2023)  
