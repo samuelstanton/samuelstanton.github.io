@@ -309,8 +309,8 @@ const { Content: Bio } = await render(bio);
   /* The flying machine is a large, faint drawing centered behind the whole
      section; the section clips whatever runs past its edges. */
   .machine {
-    --orn-skin: color-mix(in srgb, var(--bg), var(--ray-b) 50%);
-    --orn-line: var(--ray-b);
+    --orn-skin: color-mix(in srgb, var(--bg), var(--ray-b) 25%);
+    --orn-line: color-mix(in srgb, var(--bg), var(--ray-b) 55%);
     position: absolute;
     z-index: -1;
     width: clamp(620px, 104vw, 1500px);
