@@ -1,0 +1,29 @@
+[
+  {
+    "icon": "choose",
+    "title": "Choosing the next experiment",
+    "text": "Bayesian optimization for biological sequences.",
+    "papers": [
+      { "label": "LaMBO", "href": "https://arxiv.org/abs/2203.12742", "venue": "ICML 2022" },
+      { "label": "Generalists vs. Specialists", "href": "https://arxiv.org/abs/2410.22296", "venue": "ICML 2025" }
+    ]
+  },
+  {
+    "icon": "trust",
+    "title": "Knowing when to trust a model",
+    "text": "Conformal prediction under feedback.",
+    "papers": [
+      { "label": "Conformal BayesOpt", "href": "https://arxiv.org/abs/2210.12496", "venue": "AISTATS 2023" },
+      { "label": "Conformal Policy Control", "href": "https://arxiv.org/abs/2603.02196", "venue": "ICML 2026" }
+    ]
+  },
+  {
+    "icon": "design",
+    "title": "Designing antibodies",
+    "text": "Generative protein models, tested in the lab.",
+    "papers": [
+      { "label": "Guided discrete diffusion", "href": "https://arxiv.org/abs/2305.20009", "venue": "NeurIPS 2023" },
+      { "label": "Lab-in-the-loop", "href": "https://doi.org/10.1101/2025.02.19.639050", "venue": "2025" }
+    ]
+  }
+]

@@ -1,0 +1,116 @@
+---
+import site from '../data/site.json';
+const year = new Date().getFullYear();
+const numerals: [number, string][] = [[1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'], [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']];
+let n = year;
+let roman = '';
+for (const [value, letters] of numerals) {
+  while (n >= value) {
+    roman += letters;
+    n -= value;
+  }
+}
+---
+<header class="topbar">
+  <div class="wrap topbar-inner caps">
+    <a class="who" href="/">{site.author}<span class="where"> · {site.place} · {roman}</span></a>
+    <nav aria-label="Site">
+      <a href="/essays/">Essays</a>
+      <a href="/publications/">Research</a>
+      <a href="/#about">About</a>
+      <a href="/samuel_stanton_cv.pdf">CV</a>
+      <button type="button" id="theme-toggle" class="caps" aria-label="Switch between light and dark mode">Dark</button>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    var button = document.getElementById('theme-toggle');
+    if (!button) return;
+    function current() {
+      var set = document.documentElement.getAttribute('data-theme');
+      if (set) return set;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function label() {
+      button.textContent = current() === 'dark' ? 'Light' : 'Dark';
+    }
+    button.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('helicon-theme', next);
+      } catch (e) {}
+      label();
+    });
+    label();
+  })();
+</script>
+
+<style>
+  .topbar {
+    border-bottom: 2px solid var(--band-rule);
+  }
+  .topbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px 24px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .who {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 10px 28px;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 0;
+  }
+  nav a:hover,
+  .who:hover {
+    color: var(--link-hover);
+  }
+  button {
+    background: none;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 7px 12px 6px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  button:hover {
+    border-color: var(--gold);
+  }
+  @media (max-width: 600px) {
+    .topbar-inner {
+      padding-top: 12px;
+      padding-bottom: 10px;
+      gap: 4px 24px;
+    }
+    .where {
+      display: none;
+    }
+    nav {
+      width: 100%;
+      justify-content: space-between;
+      gap: 6px 12px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+    }
+    button {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      padding: 6px 9px 5px;
+    }
+  }
+</style>

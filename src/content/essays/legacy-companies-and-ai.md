@@ -1,6 +1,10 @@
-# On Legacy Companies and AI
-
-*October 17, 2025*
+---
+title: "On Legacy Companies and AI"
+date: 2025-10-17
+kind: "essay"
+summary: "Why most corporate AI pilots fail, and what it takes to use AI well."
+lede: "There is a world of difference between inking a deal with the frontier lab du jour to satisfy a board of directors that the company is \"doing AI\", and actually embracing technological phase change. Legacy companies will struggle, and they will blame AI for failing to fix institutional problems that are all too human."
+---
 
 There is a world of difference between inking a deal with the frontier lab _du jour_ to satisfy a board of directors that the company is "doing AI", and actually embracing technological phase change.
 

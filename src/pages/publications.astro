@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Wordmark from '../components/Wordmark.astro';
+import site from '../data/site.json';
+
+const all = (await getCollection('publications')).sort((a, b) => a.data.order - b.data.order);
+const papers = all.filter((p) => p.data.kind === 'paper');
+const patents = all.filter((p) => p.data.kind === 'patent');
+
+// Split an author list so the site's author can be set in bold.
+function authorParts(authors: string) {
+  return authors.split(site.author);
+}
+---
+<Base title="Publications" description="Publications and patents by Samuel Stanton.">
+  <div class="wrap page">
+    <Wordmark />
+    <div class="column">
+      <div class="flanked">
+        <div class="speed-r" aria-hidden="true"></div>
+        <h1 class="section-title">Publications</h1>
+        <div class="speed" aria-hidden="true"></div>
+      </div>
+      <ol class="list">
+        {papers.map((p) => (
+          <li>
+            <h2>{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h2>
+            <p class="authors">
+              {authorParts(p.data.authors).map((part, i, parts) => (
+                <Fragment>{part}{i < parts.length - 1 && <strong>{site.author}</strong>}</Fragment>
+              ))}
+            </p>
+            <p class="venue">
+              <em>{p.data.venue}</em>
+              {p.data.code && <Fragment> · <a href={p.data.code}>code</a></Fragment>}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <h2 class="section-title patents-title">Patents</h2>
+      <ol class="list">
+        {patents.map((p) => (
+          <li>
+            <h2>{p.data.url ? <a href={p.data.url}>{p.data.title}</a> : p.data.title}</h2>
+            <p class="authors">
+              {authorParts(p.data.authors).map((part, i, parts) => (
+                <Fragment>{part}{i < parts.length - 1 && <strong>{site.author}</strong>}</Fragment>
+              ))}
+            </p>
+            <p class="venue"><em>{p.data.venue}</em></p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 40px;
+    padding-bottom: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .column {
+    width: 100%;
+  }
+  .list {
+    list-style: none;
+    margin: 40px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .list li {
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .list li:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+  .list h2 {
+    margin: 0;
+    font-family: var(--text);
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+  .list h2 a {
+    color: var(--ink);
+    text-decoration-thickness: 1px;
+  }
+  .list h2 a:hover {
+    color: var(--link-hover);
+  }
+  .list p {
+    margin: 0;
+    font-size: 19px;
+    color: var(--muted);
+  }
+  .authors strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .patents-title {
+    margin-top: 72px;
+  }
+</style>

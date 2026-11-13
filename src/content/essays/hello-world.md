@@ -1,6 +1,9 @@
-# Hello, World!
-
-*February 23, 2020*
+---
+title: "Hello, World!"
+date: 2020-02-23
+kind: "essay"
+summary: "The first post."
+---
 
 New Year's resolutions are decidedly out of fashion. In spite of that, on a cold January day I promised myself that this would be the year I started writing. I suppose the necessary impetus has come from my experiences in grad school. 
 

@@ -1,0 +1,34 @@
+---
+// Compact masthead for inner pages.
+import site from '../data/site.json';
+---
+<p class="wordmark">
+  <a href="/" class="frame"><span class="frame-inner">{site.name}</span></a>
+</p>
+
+<style>
+  .wordmark {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--ink);
+    border-width: 2px;
+    padding: 4px;
+  }
+  .frame-inner {
+    display: block;
+    /* Less padding on the right, to balance the trailing letter-space. */
+    padding: 10px calc(26px - 0.3em) 8px 26px;
+    font-family: var(--display);
+    font-size: 26px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  a:hover {
+    color: var(--link-hover);
+  }
+</style>

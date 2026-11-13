@@ -1,0 +1,82 @@
+---
+// Framed table of contents: every published essay, newest first.
+import { getCollection } from 'astro:content';
+const essays = (await getCollection('essays', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX'];
+---
+<div class="frame contents">
+  <div class="frame-inner">
+    <h2 class="section-title" id="contents-title">Contents</h2>
+    <ol aria-labelledby="contents-title">
+      {essays.map((essay, i) => (
+        <li>
+          <span class="num">{roman[i] ?? i + 1}.</span>
+          <a href={`/essays/${essay.id}/`}>{essay.data.title}</a>
+          <span class="dots" aria-hidden="true"></span>
+          <span class="year">{essay.data.date.getUTCFullYear()}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<style>
+  .frame-inner {
+    padding: 36px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .num {
+    flex: 0 0 40px;
+    font-family: var(--display);
+    font-size: 16px;
+  }
+  a {
+    min-width: 0;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+    text-decoration-color: var(--gold);
+  }
+  .dots {
+    flex: 1 1 24px;
+    border-bottom: 2px dotted var(--muted);
+    transform: translateY(-6px);
+  }
+  .year {
+    font-family: var(--display);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  @media (max-width: 600px) {
+    .frame-inner {
+      padding: 28px 18px;
+    }
+    .num {
+      flex-basis: 30px;
+    }
+    li {
+      gap: 10px;
+    }
+  }
+</style>

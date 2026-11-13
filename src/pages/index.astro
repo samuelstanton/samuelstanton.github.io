@@ -1,0 +1,328 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import MastheadArt from '../components/MastheadArt.astro';
+import Contents from '../components/Contents.astro';
+import ResearchIcon from '../components/ResearchIcon.astro';
+import site from '../data/site.json';
+import research from '../data/research.json';
+
+const essays = (await getCollection('essays', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latest = essays[0];
+const lede = latest.data.lede ?? latest.data.summary;
+const latestDate = latest.data.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+const bio = await getEntry('pages', 'bio');
+if (!bio) throw new Error('src/content/pages/bio.md is missing');
+const { Content: Bio } = await render(bio);
+---
+<Base>
+  <section class="masthead">
+    <div class="wrap">
+      <div class="stack">
+        <div class="art"><MastheadArt /></div>
+        <div class="frame title-frame">
+          <div class="frame-inner">
+            <h1>{site.name}</h1>
+            <p class="motto caps">
+              <span>{site.motto[0]} ·</span> <span>{site.motto[1]}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lead wrap">
+    <article class="column" aria-labelledby="lead-title">
+      <p class="caps">Latest {latest.data.kind} · {latestDate}</p>
+      <h2 id="lead-title"><a href={`/essays/${latest.id}/`}>{latest.data.title}</a></h2>
+      <div class="lede">
+        <span class="initial" aria-hidden="true">{lede[0]}</span>
+        <p><span class="sr-only">{lede[0]}</span>{lede.slice(1)}</p>
+      </div>
+      <a class="caps more" href={`/essays/${latest.id}/`}>Read the {latest.data.kind}</a>
+    </article>
+  </section>
+
+  <section id="contents" class="wrap contents-section">
+    <div class="column"><Contents /></div>
+  </section>
+
+  <section id="research" class="research" aria-labelledby="research-title">
+    <div class="wrap">
+      <div class="flanked">
+        <div class="speed-r" aria-hidden="true"></div>
+        <h2 class="section-title" id="research-title">Research</h2>
+        <div class="speed" aria-hidden="true"></div>
+      </div>
+      <p class="epigraph">“{site.epigraph.text}” {site.epigraph.source}</p>
+      <div class="themes">
+        {research.map((theme) => (
+          <article>
+            <ResearchIcon kind={theme.icon as 'choose' | 'trust' | 'design'} />
+            <h3>{theme.title}</h3>
+            <p>
+              {theme.text}{' '}
+              {theme.papers.map((paper, i) => (
+                <Fragment>
+                  <a href={paper.href}>{paper.label}</a>, {paper.venue}
+                  {i < theme.papers.length - 1 ? '; ' : '.'}
+                </Fragment>
+              ))}
+            </p>
+          </article>
+        ))}
+      </div>
+      <p class="all"><a class="caps" href="/publications/">All publications</a></p>
+    </div>
+  </section>
+
+  <section id="about" class="about wrap" aria-labelledby="about-title">
+    <div class="column about-inner">
+      <svg viewBox="0 0 48 56" width="48" height="56" role="img" aria-label="Six balls on a shield, after the Medici arms">
+        <path d="M4 4 H44 V30 C44 44 34 51 24 54 C14 51 4 44 4 30 Z" fill="none" stroke="var(--gold)" stroke-width="2"></path>
+        <circle cx="24" cy="12" r="4" fill="var(--blue)"></circle>
+        <circle cx="13" cy="20" r="4" fill="var(--rose)"></circle>
+        <circle cx="35" cy="20" r="4" fill="var(--rose)"></circle>
+        <circle cx="13" cy="32" r="4" fill="var(--rose)"></circle>
+        <circle cx="35" cy="32" r="4" fill="var(--rose)"></circle>
+        <circle cx="24" cy="42" r="4" fill="var(--rose)"></circle>
+      </svg>
+      <h2 class="section-title" id="about-title">The author</h2>
+      <div class="author">
+        <div class="portrait">
+          <img
+            src="/images/samuel_stanton_portrait_square.jpg"
+            alt={`Portrait of ${site.author}`}
+            width="1024"
+            height="1024"
+            loading="lazy"
+          />
+        </div>
+        <div class="bio prose"><Bio /></div>
+      </div>
+      <p class="links caps">
+        {site.links.map((link) => <a href={link.href}>{link.label}</a>)}
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* The sunburst is centered on the sun in the drawing: 56px of padding plus
+     140/760 of the drawing's width, where the drawing is 760/780 of the stack. */
+  .masthead {
+    --stack-w: min(780px, calc(100vw - 48px));
+    padding: 56px 0 80px;
+    border-bottom: 1px solid var(--rule);
+    background: repeating-conic-gradient(
+      from 2.5deg at 50% calc(56px + var(--stack-w) * 0.17949),
+      var(--ray-a) 0deg 5deg,
+      var(--ray-b) 5deg 10deg
+    );
+  }
+  .stack {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .art {
+    width: 97.436%;
+    margin: 0 auto;
+  }
+  .title-frame {
+    margin-top: -1px;
+    position: relative;
+  }
+  .title-frame .frame-inner {
+    container-type: inline-size;
+    padding: 36px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+  h1 {
+    margin: 0 -0.14em 0 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 15cqw, 96px);
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .motto {
+    margin: 0;
+    letter-spacing: 0.2em;
+    color: var(--accent-text);
+  }
+  .motto span {
+    white-space: nowrap;
+  }
+
+  .lead {
+    padding-top: 88px;
+    padding-bottom: 80px;
+  }
+  .lead article {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .lead .caps {
+    margin: 0;
+  }
+  .lead h2 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(32px, 6vw, 44px);
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    text-wrap: balance;
+  }
+  .lead h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .lead h2 a:hover {
+    color: var(--link-hover);
+  }
+  .lede {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .lede p {
+    margin: 0;
+  }
+  .more {
+    align-self: flex-start;
+    font-size: 15px;
+    letter-spacing: 0.2em;
+  }
+
+  .contents-section {
+    padding-bottom: 96px;
+  }
+
+  .research {
+    padding: 80px 0;
+    background: var(--band);
+    border-top: 2px solid var(--band-rule);
+    border-bottom: 2px solid var(--band-rule);
+  }
+  .research .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .epigraph {
+    margin: -20px 0 0;
+    text-align: center;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: 40px;
+  }
+  .themes article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+  }
+  .themes h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 21px;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+  }
+  .themes p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 19px;
+  }
+  .all {
+    margin: 0;
+    text-align: center;
+  }
+  .all a,
+  .links a {
+    font-size: 15px;
+    letter-spacing: 0.2em;
+  }
+
+  .about {
+    padding-top: 80px;
+    padding-bottom: 72px;
+  }
+  .about-inner {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .author {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+  }
+  .portrait {
+    flex: 0 1 220px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 8px;
+    border: 2px solid var(--frame);
+    outline: 1px solid var(--gold);
+    outline-offset: -5px;
+    border-radius: 120px 120px 6px 6px;
+  }
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 85% 50%;
+    border-radius: 112px 112px 2px 2px;
+  }
+  .bio {
+    flex: 999 1 380px;
+    min-width: 0;
+  }
+  .links {
+    margin: 0;
+    display: flex;
+    gap: 12px 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 600px) {
+    .masthead {
+      padding-bottom: 56px;
+    }
+    .lead {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+    .initial {
+      flex-basis: 56px;
+      height: 56px;
+      font-size: 38px;
+    }
+  }
+</style>
