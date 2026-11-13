@@ -1,0 +1,65 @@
+---
+// A flying machine after Leonardo's ornithopter sketches, seen from above.
+// The parent sets its size and position, and its colors through --orn-skin
+// and --orn-line. `angle` turns the nose away from straight up, in degrees.
+// `simple` draws the body as one plain shape, for small sizes.
+interface Props {
+  angle?: number;
+  simple?: boolean;
+}
+const { angle = 0, simple = false } = Astro.props;
+---
+<svg class="ornithopter" viewBox="-146 -8 292 176" aria-hidden="true">
+  <g transform={`rotate(${angle} 0 84)`}>
+    {[1, -1].map((side) => (
+      <g transform={`scale(${side} 1)`}>
+        <g class="orn-wing">
+          <path class="orn-skin" d="M7 52 L48 38 L88 44 L128 78 Q111 80 104 101 Q88 90 76 113 Q62 95 48 109 Q30 91 7 92 Z"></path>
+          <path class="orn-rib" d="M88 44 L104 101 M88 44 L76 113 M48 38 L48 109"></path>
+          <path class="orn-spar" d="M7 52 L48 38 L88 44 L128 78"></path>
+        </g>
+      </g>
+    ))}
+    <path class="orn-skin" d="M-6 112 L-21 147 Q-10 139 0 149 Q10 139 21 147 L6 112 Z"></path>
+    <path class="orn-rib" d="M-6 112 L-21 147 M6 112 L21 147"></path>
+    {simple ? (
+      <path class="orn-body" d="M0 16 C9 28 9 62 6 114 L-6 114 C-9 62 -9 28 0 16 Z"></path>
+    ) : (
+      <Fragment>
+        <path class="orn-cord" d="M0 20 L88 44 M0 20 L-88 44"></path>
+        <path class="orn-spar" d="M-7 112 L-7 40 Q-7 25 0 20 Q7 25 7 40 L7 112 Z M-7 52 H7 M-7 72 H7 M-7 92 H7"></path>
+        <circle class="orn-body" cx="0" cy="37" r="5"></circle>
+      </Fragment>
+    )}
+  </g>
+</svg>
+
+<style>
+  .ornithopter {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    fill: none;
+    stroke: var(--orn-line, var(--figure));
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .orn-skin {
+    fill: var(--orn-skin, var(--figure));
+    stroke: none;
+  }
+  .orn-rib {
+    stroke-width: calc(1.3px * var(--orn-weight, 1));
+  }
+  .orn-spar {
+    stroke-width: calc(2.4px * var(--orn-weight, 1));
+  }
+  .orn-cord {
+    stroke-width: calc(0.9px * var(--orn-weight, 1));
+  }
+  .orn-body {
+    fill: var(--orn-line, var(--figure));
+    stroke: none;
+  }
+</style>

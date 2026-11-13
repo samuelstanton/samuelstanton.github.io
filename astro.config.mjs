@@ -5,6 +5,7 @@ import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
   site: 'https://samuelstanton.github.io',
+  devToolbar: { enabled: false },
   markdown: {
     // remark-math + KaTeX so essays can use $...$ and $$...$$.
     processor: unified({ remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] }),

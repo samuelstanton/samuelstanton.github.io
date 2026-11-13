@@ -1,14 +1,36 @@
 {
   "name": "Helicon",
-  "motto": ["To every age its science", "to science its freedom"],
+  "motto": [
+    "To every age its science",
+    "to science its freedom"
+  ],
   "author": "Samuel Stanton",
   "place": "New York",
   "description": "Helicon: essays and research by Samuel Stanton on machine learning for science.",
   "links": [
-    { "label": "X", "href": "https://x.com/samuel_stanton_" },
-    { "label": "Scholar", "href": "https://scholar.google.com/citations?user=r2Gjhg4AAAAJ" },
-    { "label": "GitHub", "href": "https://github.com/samuelstanton" },
-    { "label": "CV", "href": "/samuel_stanton_cv.pdf" }
+    {
+      "label": "X",
+      "href": "https://x.com/samuel_stanton_"
+    },
+    {
+      "label": "Scholar",
+      "href": "https://scholar.google.com/citations?user=r2Gjhg4AAAAJ"
+    },
+    {
+      "label": "GitHub",
+      "href": "https://github.com/samuelstanton"
+    },
+    {
+      "label": "CV",
+      "href": "/samuel_stanton_cv.pdf"
+    }
   ],
-  "epigraph": { "text": "Every thought emits a roll of the dice.", "source": "Stéphane Mallarmé, 1897" }
+  "epigraph": {
+    "text": "Every thought emits a roll of the dice.",
+    "source": "Stéphane Mallarmé, 1897"
+  },
+  "mirror": {
+    "text": "The great bird will take its first flight from the back of the great Swan, filling the universe with amazement.",
+    "source": "Leonardo, c. 1505"
+  }
 }
