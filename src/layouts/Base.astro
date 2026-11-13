@@ -52,9 +52,9 @@ const image = new URL('/images/samuel_stanton_portrait_square.jpg', Astro.site);
     <div class="kilim" aria-hidden="true"></div>
     <footer class="site-footer wrap">
       <p>© {new Date().getFullYear()} {site.author}</p>
-      <!-- Mirror writing, as in Leonardo's notebooks. Click it. -->
+      <!-- A note in mirror writing, as in Leonardo's notebooks. Click it. -->
       <button type="button" class="mirror" aria-pressed="false">
-        <span>{site.mirror.text} {site.mirror.source}</span>
+        <span>{site.mirror}</span>
       </button>
     </footer>
     <div class="flyer" aria-hidden="true"><Ornithopter angle={62} simple /></div>
