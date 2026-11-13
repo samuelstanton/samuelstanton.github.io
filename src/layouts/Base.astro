@@ -64,13 +64,25 @@ const image = new URL('/images/samuel_stanton_portrait_square.jpg', Astro.site);
         var flyer = document.querySelector('.flyer');
         if (!button || !flyer) return;
         var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var timer;
+        function hide() {
+          button.setAttribute('aria-pressed', 'false');
+        }
+        // When the flight is over, the line goes back to mirror writing.
         flyer.addEventListener('animationend', function (event) {
-          if (event.target === flyer) flyer.classList.remove('flying');
+          if (event.target !== flyer) return;
+          flyer.classList.remove('flying');
+          hide();
         });
         button.addEventListener('click', function () {
           var readable = button.getAttribute('aria-pressed') !== 'true';
           button.setAttribute('aria-pressed', String(readable));
-          if (readable && !still.matches) {
+          clearTimeout(timer);
+          if (!readable) return;
+          if (still.matches) {
+            // No flight with reduced motion, so hide it again after the same wait.
+            timer = setTimeout(hide, 7000);
+          } else {
             flyer.classList.remove('flying');
             void flyer.offsetWidth; // restart the flight if it is already under way
             flyer.classList.add('flying');
