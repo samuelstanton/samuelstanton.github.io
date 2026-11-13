@@ -82,6 +82,7 @@ const { Content: Bio } = await render(bio);
   </section>
 
   <section id="about" class="about" aria-labelledby="about-title">
+    <div class="machine"><Ornithopter angle={23} /></div>
     <div class="wrap"><div class="column about-inner">
       <svg viewBox="0 0 48 56" width="48" height="56" role="img" aria-label="Six balls on a shield, after the Medici arms">
         <path d="M4 4 H44 V30 C44 44 34 51 24 54 C14 51 4 44 4 30 Z" fill="none" stroke="var(--gold)" stroke-width="2"></path>
@@ -95,7 +96,6 @@ const { Content: Bio } = await render(bio);
       <h2 class="section-title" id="about-title">The author</h2>
       <div class="author">
         <div class="portrait">
-          <div class="machine"><Ornithopter angle={23} /></div>
           <img
             src="/images/samuel_stanton_portrait_square.jpg"
             alt={`Portrait of ${site.author}`}
@@ -265,6 +265,7 @@ const { Content: Bio } = await render(bio);
   }
 
   .about {
+    position: relative;
     padding-top: 80px;
     padding-bottom: 72px;
     overflow: hidden;
@@ -305,17 +306,17 @@ const { Content: Bio } = await render(bio);
     object-position: 85% 50%;
     border-radius: 112px 112px 2px 2px;
   }
-  /* The flying machine is a large, faint drawing set behind the section,
-     centered just off the photo's upper left corner. */
+  /* The flying machine is a large, faint drawing centered behind the whole
+     section; the section clips whatever runs past its edges. */
   .machine {
     --orn-skin: var(--ray-b);
     --orn-line: color-mix(in srgb, var(--ray-b), var(--ink) 9%);
     position: absolute;
     z-index: -1;
-    width: clamp(560px, 76vw, 980px);
-    left: 0;
-    top: 0;
-    transform: translate(-46%, -54%);
+    width: clamp(620px, 104vw, 1500px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     pointer-events: none;
   }
   .bio {
