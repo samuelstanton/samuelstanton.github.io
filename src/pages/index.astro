@@ -94,6 +94,22 @@ const { Content: Bio } = await render(bio);
       <h2 class="section-title" id="about-title">The author</h2>
       <div class="author">
         <div class="portrait">
+          <!-- A flying machine after Leonardo's ornithopter sketches, seen from above. -->
+          <svg class="ornithopter" viewBox="-146 -8 292 176" aria-hidden="true">
+            <g transform="rotate(24 0 84)">
+              <g id="h-wing">
+                <path class="orn-skin" d="M7 52 L48 38 L88 44 L128 78 Q111 80 104 101 Q88 90 76 113 Q62 95 48 109 Q30 91 7 92 Z"></path>
+                <path class="orn-frame-line" d="M88 44 L104 101 M88 44 L76 113 M48 38 L48 109"></path>
+                <path class="orn-spar" d="M7 52 L48 38 L88 44 L128 78"></path>
+                <path class="orn-cord" d="M0 20 L88 44"></path>
+              </g>
+              <use href="#h-wing" transform="scale(-1 1)"></use>
+              <path class="orn-skin" d="M-7 112 L-21 147 Q-10 139 0 149 Q10 139 21 147 L7 112 Z"></path>
+              <path class="orn-frame-line" d="M-7 112 L-21 147 M7 112 L21 147 M0 112 L0 149"></path>
+              <path class="orn-spar" d="M-7 112 L-7 40 Q-7 25 0 20 Q7 25 7 40 L7 112 Z M-7 52 H7 M-7 72 H7 M-7 92 H7"></path>
+              <circle class="orn-pilot" cx="0" cy="37" r="5"></circle>
+            </g>
+          </svg>
           <img
             src="/images/samuel_stanton_portrait_square.jpg"
             alt={`Portrait of ${site.author}`}
@@ -281,6 +297,7 @@ const { Content: Bio } = await render(bio);
     align-items: center;
   }
   .portrait {
+    position: relative;
     flex: 0 1 220px;
     max-width: 100%;
     margin: 0 auto;
@@ -298,6 +315,55 @@ const { Content: Bio } = await render(bio);
     object-fit: cover;
     object-position: 85% 50%;
     border-radius: 112px 112px 2px 2px;
+  }
+  /* The flying machine sits off the photo's left shoulder, and moves out into
+     the margin beside the photo when the window is wide enough. */
+  /* Parts are styled by their own class, not as descendants of the drawing,
+     so the mirrored copy of the wing picks the rules up too. */
+  .ornithopter {
+    --machine: color-mix(in srgb, var(--figure), var(--ink) 30%);
+    position: absolute;
+    width: 84px;
+    left: -50px;
+    bottom: calc(100% - 34px);
+    pointer-events: none;
+    fill: none;
+    stroke: var(--machine);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .orn-skin {
+    fill: var(--figure);
+    stroke: none;
+  }
+  .orn-frame-line {
+    stroke-width: 1.8;
+  }
+  .orn-spar {
+    stroke-width: 3.4;
+  }
+  .orn-cord {
+    stroke-width: 1.2;
+  }
+  .orn-pilot {
+    fill: var(--machine);
+    stroke: none;
+  }
+  @media (min-width: 700px) {
+    .ornithopter {
+      width: 112px;
+      left: -14px;
+      bottom: calc(100% - 6px);
+    }
+  }
+  @media (min-width: 1160px) {
+    .ornithopter {
+      width: 156px;
+      left: auto;
+      right: calc(100% + 24px);
+      bottom: auto;
+      top: 4%;
+    }
   }
   .bio {
     flex: 999 1 380px;
