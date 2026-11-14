@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Wordmark from '../components/Wordmark.astro';
+---
+<Base title="Page not found">
+  <div class="wrap page">
+    <Wordmark />
+    <div class="column">
+      <h1 class="section-title">Page not found</h1>
+      <p>That page isn’t here. Try the <a href="/">home page</a> or the list of <a href="/essays/">essays</a>.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 40px;
+    padding-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    text-align: center;
+  }
+</style>

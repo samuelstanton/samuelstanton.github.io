@@ -1,6 +1,9 @@
-# Focus Groups and Academic Reviews
-
-*August 12, 2020*
+---
+title: "Focus Groups and Academic Reviews"
+date: 2020-08-12
+kind: "essay"
+summary: "What conference reviews can and can't tell you about your work."
+---
 
 I've expressed the ideas that follow on Twitter, but for the sake
 of posterity I'll repeat my thoughts here.

@@ -1,9 +1,14 @@
-cache
-.doit.db*
-__pycache__
-output
-.ipynb_checkpoints
-.DS_Store
-_build
+# Astro
+node_modules/
+dist/
+.astro/
 
+# Old Jupyter Book build
+_build
+.venv
+__pycache__
+.doit.db*
+.ipynb_checkpoints
+
+.DS_Store
 **/.claude/settings.local.json

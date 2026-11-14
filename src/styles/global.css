@@ -1,0 +1,375 @@
+/* Helicon design tokens. Light mode is the paper version; dark mode is the plum version. */
+:root {
+  color-scheme: light;
+  --bg: #fbfbf8;
+  --ink: #141414;
+  --muted: #4a4a44;
+  --rule: #cfcbbe;
+  --frame: #141414;
+  --gold: #b4882b;
+  --gold-art: #c98f1f;
+  --rose: #a9503f;
+  --sage: #4f7a4b;
+  --blue: #3e5c8a;
+  --ray-a: #fbfbf8;
+  --ray-b: #f1efe8;
+  --plate: #fbfbf8;
+  --line: #141414;
+  --figure: #d3ccba;
+  --ledge: #f1efe8;
+  --shadow: rgba(20, 20, 20, 0.22);
+  --band: #fbfbf8;
+  --band-rule: #141414;
+  --accent-text: #141414;
+  --link: #141414;
+  --link-line: #b4882b;
+  --link-hover: #6e5214;
+  --kilim-a: #141414;
+  --kilim-b: #b4882b;
+  --speed-1: #141414;
+  --speed-2: #b4882b;
+  --speed-3: #141414;
+  --code-bg: #f3f1ea;
+
+  --display: 'Federo', 'Josefin Sans', 'Gill Sans', sans-serif;
+  --text: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --art-w: min(760px, calc(100vw - 48px));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #1e1626;
+    --ink: #f1e6d6;
+    --muted: #c9b8a3;
+    --rule: #4a3b57;
+    --frame: #f1e6d6;
+    --gold: #e0a93b;
+    --gold-art: #e0a93b;
+    --rose: #d98c7a;
+    --sage: #8fae8b;
+    --blue: #7fa3d6;
+    --ray-a: #241a2e;
+    --ray-b: #2c2138;
+    --plate: #2a2034;
+    --line: #e0a93b;
+    --figure: #4a3c5a;
+    --ledge: #2f2439;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --band: #2a2034;
+    --band-rule: #4a3b57;
+    --accent-text: #f0be55;
+    --link: #f0be55;
+    --link-line: #f0be55;
+    --link-hover: #ffd98a;
+    --kilim-a: #e0a93b;
+    --kilim-b: #d98c7a;
+    --speed-1: #e0a93b;
+    --speed-2: #d98c7a;
+    --speed-3: #8fae8b;
+    --code-bg: #2a2034;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #1e1626;
+  --ink: #f1e6d6;
+  --muted: #c9b8a3;
+  --rule: #4a3b57;
+  --frame: #f1e6d6;
+  --gold: #e0a93b;
+  --gold-art: #e0a93b;
+  --rose: #d98c7a;
+  --sage: #8fae8b;
+  --blue: #7fa3d6;
+  --ray-a: #241a2e;
+  --ray-b: #2c2138;
+  --plate: #2a2034;
+  --line: #e0a93b;
+  --figure: #4a3c5a;
+  --ledge: #2f2439;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --band: #2a2034;
+  --band-rule: #4a3b57;
+  --accent-text: #f0be55;
+  --link: #f0be55;
+  --link-line: #f0be55;
+  --link-hover: #ffd98a;
+  --kilim-a: #e0a93b;
+  --kilim-b: #d98c7a;
+  --speed-1: #e0a93b;
+  --speed-2: #d98c7a;
+  --speed-3: #8fae8b;
+  --code-bg: #2a2034;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--text);
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.55;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--link);
+  text-decoration-color: var(--link-line);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+.column {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* Small letterspaced capitals used for labels, nav and section headings. */
+.caps {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 14px;
+}
+
+.section-title {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Woven band at the very top and bottom of each page. */
+.kilim {
+  height: 18px;
+  background:
+    linear-gradient(135deg, var(--kilim-a) 25%, transparent 25%) -9px 0 / 18px 18px,
+    linear-gradient(225deg, var(--kilim-a) 25%, transparent 25%) -9px 0 / 18px 18px,
+    linear-gradient(315deg, var(--kilim-b) 25%, transparent 25%) 0 0 / 18px 18px,
+    linear-gradient(45deg, var(--kilim-b) 25%, transparent 25%) 0 0 / 18px 18px,
+    var(--bg);
+}
+
+/* Three stepped lines that flank a section heading. */
+.speed,
+.speed-r {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 18px;
+}
+
+.speed {
+  background:
+    linear-gradient(var(--speed-1), var(--speed-1)) 0 0 / 100% 2px no-repeat,
+    linear-gradient(var(--speed-2), var(--speed-2)) 0 8px / 82% 2px no-repeat,
+    linear-gradient(var(--speed-3), var(--speed-3)) 0 16px / 64% 1px no-repeat;
+}
+
+.speed-r {
+  background:
+    linear-gradient(var(--speed-1), var(--speed-1)) 100% 0 / 100% 2px no-repeat,
+    linear-gradient(var(--speed-2), var(--speed-2)) 100% 8px / 82% 2px no-repeat,
+    linear-gradient(var(--speed-3), var(--speed-3)) 100% 16px / 64% 1px no-repeat;
+}
+
+.flanked {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Double frame: a heavy outer line and a thin gold inner line. */
+.frame {
+  border: 3px solid var(--frame);
+  padding: 6px;
+  background: var(--bg);
+}
+
+.frame > .frame-inner {
+  border: 1px solid var(--gold);
+}
+
+/* Boxed initial letter. */
+.initial {
+  flex: 0 0 68px;
+  height: 68px;
+  background: var(--ink);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 46px;
+  outline: 2px solid var(--gold);
+  outline-offset: -8px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Long-form text: essay bodies and the bio. */
+.prose {
+  font-size: 21px;
+}
+
+.prose > * {
+  margin: 0;
+}
+
+.prose > * + * {
+  margin-top: 0.9em;
+}
+
+.prose h2,
+.prose h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin-top: 1.8em;
+  text-wrap: balance;
+}
+
+.prose h2 {
+  font-size: 30px;
+}
+
+.prose h3 {
+  font-size: 24px;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.2em;
+}
+
+.prose li + li {
+  margin-top: 0.3em;
+}
+
+.prose blockquote {
+  margin-left: 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--gold);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2em 0;
+}
+
+.prose code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.72em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+}
+
+.prose pre {
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  background: var(--code-bg) !important;
+}
+
+.prose pre code {
+  font-size: inherit;
+  background: none;
+  padding: 0;
+}
+
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.prose .footnotes {
+  margin-top: 2.4em;
+  padding-top: 1em;
+  border-top: 1px solid var(--rule);
+  font-size: 18px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* Code highlighting follows the theme. */
+:root[data-theme='dark'] .astro-code,
+:root[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .astro-code,
+  :root:not([data-theme='light']) .astro-code span {
+    color: var(--shiki-dark) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 19px;
+  }
+  .prose {
+    font-size: 19px;
+  }
+  .section-title {
+    font-size: 19px;
+    letter-spacing: 0.28em;
+  }
+  .flanked {
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

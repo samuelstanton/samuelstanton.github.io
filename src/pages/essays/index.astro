@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import Wordmark from '../../components/Wordmark.astro';
+import Contents from '../../components/Contents.astro';
+---
+<Base title="Essays" description="Essays and tutorials by Samuel Stanton.">
+  <div class="wrap page">
+    <Wordmark />
+    <div class="column"><Contents /></div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 40px;
+    padding-bottom: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .column {
+    width: 100%;
+  }
+</style>

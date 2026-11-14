@@ -1,0 +1,24 @@
+---
+// Small hexagonal emblems for the three research themes.
+// They reuse the antibody symbol defined in MastheadArt.astro, so they only work on a page that includes it.
+interface Props { kind: 'choose' | 'trust' | 'design' }
+const { kind } = Astro.props;
+---
+<svg viewBox="-60 -60 120 120" width="128" height="128" aria-hidden="true">
+{kind === 'choose' && (<Fragment>
+<polygon points="0,-56 48.5,-28 48.5,28 0,56 -48.5,28 -48.5,-28" fill="var(--plate)" stroke="var(--line)" stroke-width="1.5"></polygon>
+<g style="color: var(--gold-art)"><use href="#h-ab" x="-13" y="-50" width="26" height="30"></use><use href="#h-ab" x="-13" y="-50" width="26" height="30" transform="rotate(120)"></use><use href="#h-ab" x="-13" y="-50" width="26" height="30" transform="rotate(240)"></use></g>
+<circle r="9" fill="var(--rose)"></circle>
+</Fragment>)}
+{kind === 'trust' && (<Fragment>
+<polygon points="0,-56 48.5,-28 48.5,28 0,56 -48.5,28 -48.5,-28" fill="var(--plate)" stroke="var(--line)" stroke-width="1.5"></polygon>
+<polygon points="0,-24 20.8,-12 20.8,12 0,24 -20.8,12 -20.8,-12" fill="none" stroke="var(--rose)" stroke-width="2.5" stroke-dasharray="0 6" stroke-linecap="round"></polygon>
+<g style="color: var(--rose)"><use href="#h-ab" x="-9" y="-53" width="18" height="22"></use><use href="#h-ab" x="-9" y="-53" width="18" height="22" transform="rotate(60)"></use><use href="#h-ab" x="-9" y="-53" width="18" height="22" transform="rotate(120)"></use><use href="#h-ab" x="-9" y="-53" width="18" height="22" transform="rotate(180)"></use><use href="#h-ab" x="-9" y="-53" width="18" height="22" transform="rotate(240)"></use><use href="#h-ab" x="-9" y="-53" width="18" height="22" transform="rotate(300)"></use></g>
+<circle r="7" fill="var(--gold-art)"></circle>
+</Fragment>)}
+{kind === 'design' && (<Fragment>
+<polygon points="0,-56 48.5,-28 48.5,28 0,56 -48.5,28 -48.5,-28" fill="var(--plate)" stroke="var(--line)" stroke-width="1.5"></polygon>
+<g style="color: var(--sage)"><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(30)"></use><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(90)"></use><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(150)"></use><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(210)"></use><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(270)"></use><use href="#h-ab" x="-8" y="-46" width="16" height="20" transform="rotate(330)"></use></g>
+<polygon points="0,-16 13.9,-8 13.9,8 0,16 -13.9,8 -13.9,-8" fill="none" stroke="var(--gold-art)" stroke-width="2"></polygon>
+</Fragment>)}
+</svg>

@@ -1,0 +1,182 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import site from '../data/site.json';
+import TopBar from '../components/TopBar.astro';
+import Ornithopter from '../components/Ornithopter.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.author}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const image = new URL('/images/samuel_stanton_portrait_square.jpg', Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Federo&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap"
+    />
+    <script is:inline>
+      // Apply a saved light/dark choice before the page paints.
+      try {
+        var t = localStorage.getItem('helicon-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div class="kilim" aria-hidden="true"></div>
+    <TopBar />
+    <main>
+      <slot />
+    </main>
+    <div class="kilim" aria-hidden="true"></div>
+    <footer class="site-footer wrap">
+      <p>© {new Date().getFullYear()} {site.author}</p>
+      <!-- A note in mirror writing, as in Leonardo's notebooks. Click it. -->
+      <button type="button" class="mirror" aria-pressed="false">
+        <span>{site.mirror}</span>
+      </button>
+    </footer>
+    <div class="flyer" aria-hidden="true"><Ornithopter angle={62} simple /></div>
+    <script is:inline>
+      (function () {
+        var button = document.querySelector('.mirror');
+        var flyer = document.querySelector('.flyer');
+        if (!button || !flyer) return;
+        var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var timer;
+        function hide() {
+          button.setAttribute('aria-pressed', 'false');
+        }
+        // When the flight is over, the line goes back to mirror writing.
+        flyer.addEventListener('animationend', function (event) {
+          if (event.target !== flyer) return;
+          flyer.classList.remove('flying');
+          hide();
+        });
+        button.addEventListener('click', function () {
+          var readable = button.getAttribute('aria-pressed') !== 'true';
+          button.setAttribute('aria-pressed', String(readable));
+          clearTimeout(timer);
+          if (!readable) return;
+          if (still.matches) {
+            // No flight with reduced motion, so hide it again after the same wait.
+            timer = setTimeout(hide, 7000);
+          } else {
+            flyer.classList.remove('flying');
+            void flyer.offsetWidth; // restart the flight if it is already under way
+            flyer.classList.add('flying');
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-footer {
+    padding-top: 24px;
+    padding-bottom: 28px;
+    text-align: center;
+    font-style: italic;
+    color: var(--muted);
+    font-size: 18px;
+  }
+  .site-footer p {
+    margin: 0;
+  }
+  /* A line in mirror writing. Clicking it turns it the right way round and
+     sends the flying machine across the window. */
+  .mirror {
+    display: block;
+    max-width: 48em;
+    margin: 6px auto 0;
+    padding: 4px 8px;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--muted);
+    opacity: 0.75;
+    cursor: pointer;
+  }
+  .mirror span {
+    display: block;
+    transform: scaleX(-1);
+    transition: transform 0.7s ease-in-out;
+  }
+  .mirror[aria-pressed='true'] {
+    opacity: 1;
+  }
+  .mirror[aria-pressed='true'] span {
+    transform: scaleX(1);
+  }
+  .flyer {
+    --orn-skin: var(--figure);
+    --orn-line: color-mix(in srgb, var(--figure), var(--ink) 35%);
+    --orn-weight: 1.5;
+    position: fixed;
+    z-index: 20;
+    left: 0;
+    top: 0;
+    width: 150px;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .flyer.flying {
+    visibility: visible;
+    animation: flight 7s cubic-bezier(0.4, 0.1, 0.6, 0.9) forwards;
+  }
+  .flyer.flying :global(.orn-wing) {
+    animation: flap 0.45s ease-in-out infinite alternate;
+  }
+  @keyframes flight {
+    0% {
+      transform: translate(-180px, 82vh) rotate(6deg);
+    }
+    30% {
+      transform: translate(26vw, 58vh) rotate(-5deg);
+    }
+    62% {
+      transform: translate(60vw, 36vh) rotate(5deg);
+    }
+    100% {
+      transform: translate(calc(100vw + 180px), 2vh) rotate(-4deg);
+    }
+  }
+  /* Seen from above, a wingbeat shortens the wings toward the body. */
+  @keyframes flap {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0.8);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mirror span {
+      transition: none;
+    }
+  }
+</style>
